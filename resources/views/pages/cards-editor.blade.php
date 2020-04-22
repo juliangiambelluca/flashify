@@ -29,8 +29,8 @@ Flashcard Editor - Flashify
 			</a>
 		</div>
 		<div class="col-lg-4">
-			<a class="hover-feedback" href="#">
-			<div class="card border-left-primary shadow py-2">
+			<a href="#">
+			<div class="card border-left-primary hover-feedback shadow py-2">
 				<div class="card-body" style="padding: 0.5rem">
 					<div class="row no-gutters align-items-center">
 						<div class="col-2" style="text-align: center">

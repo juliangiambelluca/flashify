@@ -37,7 +37,8 @@
 
 /* DEFAULT STYLES */    
 a {
-    text-decoration: none;
+    cursor: pointer !important;
+    text-decoration: none !important;
     color: inherit; 
 }
 
@@ -112,6 +113,9 @@ a {
 .card-set .title-input{
     margin-right: 25px!important;
 }
+
+
+
 
 .header-card-button {
     margin: -5px 15px 0px 0px

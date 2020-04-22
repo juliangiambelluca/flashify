@@ -41,6 +41,7 @@ Study - Flashify
         @php 
           $flashcardFront = $flashcards["flashcardFronts"][$cardsIterator]; 
           $flashcardBack = $flashcards["flashcardBacks"][$cardsIterator]; 
+          $flashcardID = $cardsIterator; 
 		@endphp
 			<a href="#" class="text-gray-900">
 		  	<div class="packery-grid-item-3">
@@ -54,6 +55,11 @@ Study - Flashify
 <div class="row">
 	<br>
 </div>
+
+<!-- Include the flashcard modal to reduce clutter -->
+@include('components.viewer.flashcard-modal')
+
+<!-- Innitiate the packery plugin -->
 <script>
 $('.packery-grid').packery({
   itemSelector: '.packery-grid-item-3',
@@ -62,29 +68,56 @@ $('.packery-grid').packery({
 </script> 
 
 
+<script>
+		//Populate javascript array with PHP array values passed from controller.
+		//Values are sanitised before being evaluated by javascript this way, ensuring security against XSS
+		//Not as elgant or efficient as imploding the PHP array, but it's more secure.
+		const flashcards = {
+			fronts: [ 
+				@for ($i = 0; $i < count($flashcards["flashcardFronts"]); $i++)
+				{!! "'" !!}{{ $flashcards["flashcardFronts"][$i] }}{!! "', " !!}
+				@endfor
+				],
+			backs: [ 
+				@for ($i = 0; $i < count($flashcards["flashcardBacks"]); $i++)
+				{!! "'" !!}{{ $flashcards["flashcardBacks"][$i] }}{!! "', " !!}
+				@endfor
+			]
+		};
+
+const openFlashcardModal = (flashcardID) => {
+
+	
+	document.getElementById("modal-card-front").innerHTML = flashcards.backs[flashcardID];
+	
+	if(flashcardID !== 0){
+		document.getElementById("modal-button-previous").display = "block";
+		document.getElementById("modal-button-previous").onclick = () => openFlashcardModal(flashcardID - 1);
+	} else {
+		document.getElementById("modal-button-previous").display = "none";
+	}
+	if(flashcardID !== flashcards.fronts.length - 1){
+		document.getElementById("modal-button-next").display = "block";
+		document.getElementById("modal-button-next").onclick = () => openFlashcardModal(flashcardID + 1);
+	} else {
+		document.getElementById("modal-button-next").display = "none";
+	}
+	
+	
+	document.getElementById("modal-card-front").innerHTML = flashcards.backs[flashcardID];
 
 
 
+	$('#fc-viewer-modal').modal()
 
-        
-  <!-- Flashcard Viewer Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
+
+}
+
+</script>
+
+
+
+      
 
 
 

@@ -42,7 +42,7 @@ for this template to access:
     {{ $cardDesc }}
 		<div class="row card-set-bottom-actions">
 			<div class="col-8">
-				<span class="small text-gray-500">Tags: {{ implode(", " , $cardTags) }}<br>
+				<span class="small text-gray-500">Tags: {{ $cardTags }}<br>
 				Created by You 15 Hours ago.</span>
 			</div>
 			<div class="col-4" style="text-align: right">

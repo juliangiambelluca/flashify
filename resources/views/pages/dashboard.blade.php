@@ -15,8 +15,8 @@ Dashboard - Flashify
 		</div>
 
 		<div class="col-lg-4">
-    <a href="{{ route('pages.set-editor') }}" class="hover-feedback">
-                <div class="card header-card-button border-left-success shadow py-2">
+    <a href="{{ route('pages.set-editor') }}">
+                <div class="card header-card-button hover-feedback border-left-success shadow py-2">
                     <div class="card-body" style="padding: 0.5rem">
                     <div class="row no-gutters align-items-center">
                     <div class="col-2" style="text-align: center">
@@ -59,7 +59,7 @@ Dashboard - Flashify
                           $cardTitle = $sets["titles"][$setsIterator]; 
                           $cardDesc = $sets["descriptions"][$setsIterator]; 
                           $cardID = $sets["ids"][$setsIterator];
-                          $cardTags = $sets["tags"][$setsIterator];
+		                      $cardTags = implode($sets["tags"][$setsIterator] ,", ");
                       @endphp
                       <div class="packery-grid-item">
                       @include('components.viewer.flashcard-set')               
