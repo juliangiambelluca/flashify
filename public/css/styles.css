@@ -1,0 +1,118 @@
+/* PLUGINS */
+/* PACKERY (MASONRY GRID)*/
+
+.packery-grid-item { width: 100%; }
+@media (min-width: 576px) {
+.packery-grid-item { width: 49%; }
+.packery-grid-item-3 { width: 32%; }
+}
+
+/* TOOLTIP */
+/* Tooltip container */
+.tool-tip {
+    position: relative;
+    display: inline-block;
+  }
+  /* Tooltip text */
+  .tool-tip .tool-tip-text {
+    font-size:12px;
+    visibility: hidden;
+    width: 70px;
+    background-color: rgb(0, 0, 0);
+    color: #fff;
+    text-align: center;
+    padding: 2px 1px;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -35px;
+    margin-bottom: 3px;
+    position: absolute;
+    display:block;
+    z-index: 999;
+  }
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tool-tip:hover .tool-tip-text {
+    visibility: visible;
+  }
+
+/* DEFAULT STYLES */    
+a {
+    text-decoration: none;
+    color: inherit; 
+}
+
+
+/* HOVER FEEDBACK EFFECTS SECTION */
+.hover-feedback, .hover-feedback-light {
+    transform: scale(1);
+    transition: 0.2s;
+}
+.hover-feedback:hover{
+    transform: scale(1.03);
+    transition: 0.2s;
+}
+.hover-feedback:active{
+    transform: scale(1.02);
+    transition: ease-out;
+}
+
+.hover-feedback-light:hover{
+    transform: scale(1.02);
+    transition: 0.2s;
+}
+.hover-feedback-light:active{
+    transform: scale(1.01);
+    transition: ease-out;
+}
+/* End of section */
+
+/* Card Set styles */
+.card-set a {
+    cursor: pointer;
+
+}
+
+.mini-card-gradient{
+    position: relative;
+}
+
+.mini-card-gradient::before{
+    z-index:999;
+    background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,0) 30%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,0) 30%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 ); /* IE6-9 */ content: "\00a0";
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+
+
+/* Create Set Card */
+
+.transparent-input {
+    background-color: rgba(0, 0, 0, 0);
+    border:none;
+    margin: none;
+    max-height: 300px;
+    min-height: 35px;
+}
+.card-set .form-check{
+    padding-left: 0rem;
+}   
+.card-set .form-check-input{
+    transform: scale(1.4);
+    margin: 7px 0px 0px 10px;
+}
+.color-button-checked{
+    border: 3px solid rgba(0, 0, 0, 0.5);
+}
+
+.card-set .title-input{
+    margin-right: 25px!important;
+}
+
+.header-card-button {
+    margin: -5px 15px 0px 0px
+}
