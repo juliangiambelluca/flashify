@@ -90,7 +90,7 @@ a {
 
 
 
-/* Create Set Card */
+/* Card set style creator styles */
 
 .transparent-input {
     background-color: rgba(0, 0, 0, 0);
@@ -109,14 +109,29 @@ a {
 .color-button-checked{
     border: 3px solid rgba(0, 0, 0, 0.5);
 }
-
 .card-set .title-input{
     margin-right: 25px!important;
 }
-
-
-
-
 .header-card-button {
     margin: -5px 15px 0px 0px
+}
+
+
+/* Flashcard viewer styles */
+#modal-card-text{
+    overflow-wrap: break-word;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    min-height: 250px;
+}
+.flashcard-front-text {
+    text-align: center;
+    font-weight: 800;
+}
+.flashcard-back-text {
+    text-align: center;
+}
+.fc-viewer-modal-buttons {
+    text-align: center;
+    align-items: center;
 }

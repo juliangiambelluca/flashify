@@ -69,49 +69,91 @@ $('.packery-grid').packery({
 
 
 <script>
-		//Populate javascript array with PHP array values passed from controller.
-		//Values are sanitised before being evaluated by javascript this way, ensuring security against XSS
-		//Not as elgant or efficient as imploding the PHP array, but it's more secure.
-		const flashcards = {
-			fronts: [ 
-				@for ($i = 0; $i < count($flashcards["flashcardFronts"]); $i++)
-				{!! "'" !!}{{ $flashcards["flashcardFronts"][$i] }}{!! "', " !!}
-				@endfor
-				],
-			backs: [ 
-				@for ($i = 0; $i < count($flashcards["flashcardBacks"]); $i++)
-				{!! "'" !!}{{ $flashcards["flashcardBacks"][$i] }}{!! "', " !!}
-				@endfor
-			]
-		};
-
-const openFlashcardModal = (flashcardID) => {
-
+	//Populate javascript array with PHP array values passed from model.
+	//Values are sanitised before being evaluated by javascript this way, ensuring security against XSS
+	//Not as elgant or efficient as imploding the PHP array, but it's more secure.
+	// Global flashcards array
+	const flashcards = {
+		fronts: [ 
+			@for ($i = 0; $i < count($flashcards["flashcardFronts"]); $i++)
+			{!! "'" !!}{{ $flashcards["flashcardFronts"][$i] }}{!! "', " !!}
+			@endfor
+			],
+		backs: [ 
+			@for ($i = 0; $i < count($flashcards["flashcardBacks"]); $i++)
+			{!! "'" !!}{{ $flashcards["flashcardBacks"][$i] }}{!! "', " !!}
+			@endfor
+		]
+	};
 	
-	document.getElementById("modal-card-front").innerHTML = flashcards.backs[flashcardID];
-	
-	if(flashcardID !== 0){
-		document.getElementById("modal-button-previous").display = "block";
-		document.getElementById("modal-button-previous").onclick = () => openFlashcardModal(flashcardID - 1);
-	} else {
-		document.getElementById("modal-button-previous").display = "none";
+	// Global variables to be accessed by arrow key pressed events
+	let currentFlashcardID = 0;
+	let currentFlashcardSide = false;
+
+	const openFlashcardModal = (flashcardID, startOnFront = true) => {
+
+		// Card flipping code.
+		// if second argument passed is false, display back of flashcard first.
+		// this is so that when you click on a flash card front it doesn't show you the front again.
+		if (startOnFront){
+			document.getElementById("modal-card-text").innerHTML = "<h2 class='flashcard-front-text'>" + flashcards.fronts[flashcardID] + "</h2>";
+			document.getElementById("modal-button-flip").onclick = () => openFlashcardModal(flashcardID, false);
+			currentFlashcardSide = true;
+		} else {
+			document.getElementById("modal-card-text").innerHTML = "<h3 class='flashcard-back-text'>" + flashcards.backs[flashcardID] + "</h3>";
+			document.getElementById("modal-button-flip").onclick = () => openFlashcardModal(flashcardID, true);	
+			currentFlashcardSide = false;
+		}	
+
+		//If it's the first or last card, disable the previous or next buttons respectively.
+		if(flashcardID !== 0){
+			document.getElementById("modal-button-previous").style.display = "inline-block";
+			document.getElementById("modal-button-previous").onclick = () => openFlashcardModal(flashcardID - 1);
+		} else {
+			document.getElementById("modal-button-previous").style.display = "none";
+		}
+		if(flashcardID !== flashcards.fronts.length - 1){
+			document.getElementById("modal-button-next").style.display = "inline-block";
+			document.getElementById("modal-button-next").onclick = () => openFlashcardModal(flashcardID + 1);
+		} else {
+			document.getElementById("modal-button-next").style.display = "none";
+		}
+		
+		$('#fc-viewer-modal').modal();
+
+		currentFlashcardID = flashcardID;
+
 	}
-	if(flashcardID !== flashcards.fronts.length - 1){
-		document.getElementById("modal-button-next").display = "block";
-		document.getElementById("modal-button-next").onclick = () => openFlashcardModal(flashcardID + 1);
-	} else {
-		document.getElementById("modal-button-next").display = "none";
-	}
-	
-	
-	document.getElementById("modal-card-front").innerHTML = flashcards.backs[flashcardID];
 
-
-
-	$('#fc-viewer-modal').modal()
-
-
-}
+	document.onkeydown = function(evt) {
+    evt = evt || window.event;
+    switch (evt.keyCode) {
+        case 37:
+			(() => {
+				if(currentFlashcardID !== 0){
+					openFlashcardModal(currentFlashcardID - 1);
+				}
+			})()
+            break;
+        case 39:
+			(() => {
+				if(currentFlashcardID !== flashcards.fronts.length - 1){
+					 openFlashcardModal(currentFlashcardID + 1);
+				} 
+			})()			
+            break;
+			case 38:
+		case 40:
+			(() => {
+				if(currentFlashcardSide === true){
+					openFlashcardModal(currentFlashcardID, false);
+				} else {
+					openFlashcardModal(currentFlashcardID, true);
+				}
+			})()
+            break;
+    }
+};
 
 </script>
 

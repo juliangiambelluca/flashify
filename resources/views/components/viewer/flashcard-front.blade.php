@@ -11,7 +11,9 @@ fc-edit-front- 'This card's ID'  will be posted to the server on form submit
 containing the text for the front of this flashcard.
 *********
 -->
-<a href="#" onclick="openFlashcardModal({{ $flashcardID }})">
+
+<!-- Open Flashcard modal - startOnFront = False - (Open the back of the card) -->
+<a href="#" onclick="openFlashcardModal({{ $flashcardID }}, false)">
 <div class="card card-set shadow m-2 border-left-success hover-feedback-light">
 		<div class="card-body">
             <h3>{{ $flashcardFront }}</h3>
