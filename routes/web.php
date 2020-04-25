@@ -31,6 +31,11 @@ Route::get('/create', function () {
     return view('pages.set-editor');
 })->name("pages.set-editor");
 
+Route::post('/potato', [
+    'uses' => 'SetController@validateSet',
+    'as' => 'potato.me'
+]); 
+
 Route::get('/study', [
     'uses' => 'FlashcardController@listFlashcards',
     'as' => 'pages.viewer'

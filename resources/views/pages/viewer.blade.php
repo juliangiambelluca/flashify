@@ -10,8 +10,8 @@ Study - Flashify
 		</h1><br>
 	</div>
 	<div class="col-lg-4">
-		<a class="hover-feedback" href="{{ route('pages.set-editor') }}">
-		<div class="card header-card-button border-left-primary shadow py-2">
+		<a href="{{ route('pages.set-editor') }}">
+		<div class="card hover-feedback header-card-button border-left-primary shadow py-2">
 			<div class="card-body" style="padding: 0.5rem">
 				<div class="row no-gutters align-items-center">
 					<div class="col-2" style="text-align: center">

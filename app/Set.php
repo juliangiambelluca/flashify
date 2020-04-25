@@ -2,6 +2,7 @@
 
 namespace App;
 
+
 class Set {
 
     public function getSets($session) {
@@ -21,6 +22,31 @@ class Set {
     public function logout($session){
         session()->flush();
     }
+
+    // public function validateSet(){
+       
+
+    //     if ($validation->fails()) {
+
+    //         $inputs = $request->all();
+    //         $errors = $validation;
+    //         $response = array ("hello", "hi");
+    //         return $response;
+
+    //     } else {
+    //         return "success";
+    //         // $request->input('fc-set-title');
+    //     }
+
+
+
+
+
+
+
+    // }
+
+
 
     private function createDummydata($session){
         $sets = array(

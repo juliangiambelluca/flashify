@@ -47,9 +47,23 @@ Flashcard Editor - Flashify
 		</div>
 	
 </div>
+@if(Session::has('newSetInfo'))
+<div class="row">
+	<div class="col-md-6">
+		<div class="alert alert-info alert-dismissible fade show" role="alert">
+		<strong>"{{ Session::get('newSetInfo') }}"</strong> set created.
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		</div>
+	</div>
+</div>
+@endif
+
+
 <div class="row">
 	<br>
-</div><!-- Content Row -->
+	</div>
 
 
 

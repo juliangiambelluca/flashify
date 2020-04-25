@@ -6,7 +6,10 @@ This will be loaded into a form in the "pages.set-editor" view within "pages.edi
 
 Here the values for the title & description of the card set are obtained from the user.
 
-fc-card-title & fc-card-desc will be posted to the server on form submit
+fc-set-title
+fc-set-desc 
+
+will be posted to the server on form submit
 containing the title and description for this set.
 *********
 -->
@@ -18,7 +21,7 @@ containing the title and description for this set.
 		</div>
 		<div class="card-body">
 			<textarea aria-describedby="fc-set-desc-help" class="form-control transparent-input" 
-			id="fc-set-desc" name="fc-card-desc" maxlength="256" placeholder="Edit card set description" rows="4"></textarea> 
+			id="fc-set-desc" name="fc-set-desc" maxlength="256" placeholder="Edit card set description" rows="4"></textarea> 
 			<small class="form-text text-gray-500" id="fc-set-desc-help">Max. 256 Characters.</small> 
 		</div>
 	</form>
