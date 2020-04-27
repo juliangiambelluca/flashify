@@ -4,6 +4,9 @@ namespace App;
 
 class Flashcard {
 
+    protected $fillable = ['front', 'back'];
+
+
     public function getFlashcards($session) {
         if(!$session->has('flashcards')){
             $this->createDummyData($session);

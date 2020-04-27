@@ -1,9 +1,11 @@
 <?php
 
 namespace App;
+use Illuminate\Database\Eloquent\Model;
 
+class Set extends Model {
 
-class Set {
+    protected $fillable = ['title', 'description', 'ispublic', 'onfeed'];
 
     public function getSets($session) {
         if(!$session->has('sets')){

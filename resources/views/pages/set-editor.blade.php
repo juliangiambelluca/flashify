@@ -11,7 +11,7 @@ Flashcard Editor - Flashify
 	@if(count($errors->all()))
 <div class="row">
 	<div class="col-md-6">
-		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		<div class="alert border-left-danger alert-danger alert-dismissible fade show" role="alert">
 			<strong>Oops!</strong><br>
 			@foreach($errors->all() as $error)
 				{{ $error }} <br>
@@ -47,7 +47,7 @@ Flashcard Editor - Flashify
 				<div class="card border-left-success shadow hover-feedback py-2">
 					<div class="card-body" style="padding: 0.5rem">
 						<div class="row no-gutters align-items-center">
-							<div class="col-2" style="text-align: center">
+							<div class="col-2 arrow-effect-right" style="text-align: center">
 								<i class="fas fa-arrow-right text-success" style="transform: scale(1.3)"></i>
 							</div>
 							<div class="col-10">

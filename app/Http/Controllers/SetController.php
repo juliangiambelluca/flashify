@@ -56,6 +56,10 @@ class SetController extends Controller
         $this->validate($request, $rules, $customMessages, $attributeNames);
            
 
+        $set = new Set();
+        $set->addSet($session);
+
+
         return redirect()->route('pages.cards-editor')->with("newSetInfo", $request->input('fc-set-title'));
 
 
