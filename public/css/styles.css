@@ -62,10 +62,26 @@ a {
     transition: 0.2s;
 }
 .hover-feedback-light:active{
+    
     transform: scale(1.01);
     transition: ease-out;
 }
-/* End of section */
+
+.card-body .arrow-effect-right {
+    padding-left: 3px;
+    transition: 0.3s
+}
+.card-body:hover .arrow-effect-right {
+    padding-left: 15px;
+    transition: 0.2s
+}
+@media (min-width: 1200px) {
+    .card-body:hover .arrow-effect-right {
+        padding-left: 23px;
+        transition: 0.1s
+    }
+    }
+
 
 /* Card Set styles */
 .card-set a {
