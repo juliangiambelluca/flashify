@@ -5,11 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Set extends Model {
 
-<<<<<<< HEAD
     protected $fillable = ['title', 'description', 'onfeed', 'ispublic'];
-=======
-    protected $fillable = ['title', 'description', 'ispublic', 'onfeed'];
->>>>>>> f43e7e8a83eb4a860264ad517879d6b6e012d58e
 
     public function getSets($session) {
         if(!$session->has('sets')){

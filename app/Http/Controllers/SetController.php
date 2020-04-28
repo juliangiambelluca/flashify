@@ -54,7 +54,6 @@ class SetController extends Controller
         );
 
         $this->validate($request, $rules, $customMessages, $attributeNames);
-<<<<<<< HEAD
         
         $onFeedChecked = $request->has('fc-set-onfeed');
         $isPublicChecked = $request->has('fc-set-ispublic');
@@ -69,18 +68,6 @@ class SetController extends Controller
         
 
         return view('pages.cards-editor', ["newSetInfo" => $set]);
-=======
-           
-
-        $set = new Set();
-        $set->addSet($session);
-
-
-        return redirect()->route('pages.cards-editor')->with("newSetInfo", $request->input('fc-set-title'));
-
-
-
->>>>>>> f43e7e8a83eb4a860264ad517879d6b6e012d58e
     }
 
 }
