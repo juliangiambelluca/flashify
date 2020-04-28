@@ -6,6 +6,7 @@ use App\Set;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Session\Store;
+use Illuminate\Routing\Redirector;
 
 
 class SetController extends Controller
@@ -17,11 +18,10 @@ class SetController extends Controller
     }
 
     public function getMySets(Store $session){
-        $set = new Set();
-        $sets = $set->getSets($session);
+        $sets = Set::all();
         return view('pages.my-sets', compact("sets"));
     }
-    
+
 
     
     public function logout(Store $session){
@@ -30,7 +30,12 @@ class SetController extends Controller
         return view('pages.my-sets');
     }
 
-    public function validateSet(Request $request){
+
+
+
+
+
+    public function createSet(Request $request, Store $session){
 
         $attributeNames = array(
             'fc-set-title' => 'Title',
@@ -38,13 +43,8 @@ class SetController extends Controller
             'fc-set-color' => 'Color',
             'fc-set-category' => 'Category',
             'fc-set-tags' => 'Tags',
-            'fc-set-ispublic' => ''
         );
-
-        $customMessages = array(
-           
-        );
-
+        $customMessages = array();
         $rules = array(
         'fc-set-title' => 'required|min:3|max:64',
             'fc-set-desc' => 'required|min:3|max:256',
@@ -54,16 +54,20 @@ class SetController extends Controller
         );
 
         $this->validate($request, $rules, $customMessages, $attributeNames);
-           
+        
+        $onFeedChecked = $request->has('fc-set-onfeed');
+        $isPublicChecked = $request->has('fc-set-ispublic');
 
-        $set = new Set();
-        $set->addSet($session);
+        $set = new Set([
+            'title' => $request->input('fc-set-title') ,
+            'description' => $request->input('fc-set-desc'),
+            'onfeed' => $onFeedChecked,
+            'ispublic' => $isPublicChecked
+        ]);
+        $set->save();
+        
 
-
-        return redirect()->route('pages.cards-editor')->with("newSetInfo", $request->input('fc-set-title'));
-
-
-
+        return view('pages.cards-editor', ["newSetInfo" => $set]);
     }
 
 }

@@ -32,7 +32,7 @@ for this template to access:
 	<div class="card-body" style="padding: 1rem">
 		<!-- Content Row -->
 		<div class="row mini-card-gradient">
-      @for ($miniCardsIterator = 0; $miniCardsIterator < 4; $miniCardsIterator++) 
+		@for ($miniCardsIterator = 0; $miniCardsIterator < 4; $miniCardsIterator++) 
         @php 
           $miniCardText = $sets["miniCards"][$setsIterator][$miniCardsIterator]; 
         @endphp 

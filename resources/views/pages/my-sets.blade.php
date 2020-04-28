@@ -30,17 +30,17 @@ My Sets - Flashify
 <div class="row">
 	<div class="col-12">
 		<div class="packery-grid">
-      @for ($setsIterator = 0; $setsIterator < count($sets["ids"]); $setsIterator++) 
+      @foreach($sets as $set) 
 		@php 
-		  $cardID = $sets["ids"][$setsIterator];
-          $cardTitle = $sets["titles"][$setsIterator]; 
-		  $cardDesc = $sets["descriptions"][$setsIterator]; 
-		  $cardTags = implode($sets["tags"][$setsIterator] ,", ");
+		  $cardID = $set->id;
+          $cardTitle = $set->title; 
+		  $cardDesc = $set->description; 
+		  $cardTags = "Tag 1, Tag 2, Tag 3";
         @endphp
 		<div class="packery-grid-item">
 			@include('components.viewer.flashcard-set')
         </div>
-      @endfor
+      @endforeach
 		</div>
 	</div>
 </div>

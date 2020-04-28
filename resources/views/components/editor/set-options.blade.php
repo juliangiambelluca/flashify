@@ -83,17 +83,29 @@ fc-set-ispublic = boolean specifiying if this set should be publically available
         </div>
       </div>
     </div>
-    <div class="row m-2" >
-			<div class="col-12">
-				<div class="form-check">
-					<label class="form-check-label" for="fc-set-ispublic">
-            <i class="fas fa-users fa-sm"></i> Make this set public
+    <div class="row" >
+			<div class="col-sm-6 ">
+				<div class="form-check p-3">
+					<label class="form-check-label" for="fc-set-onfeed">
+            <i class="fas fa-users fa-sm"></i> Publish to my account
           </label> 
 
           <!--Checkbox to select if the user would like this set to be publically available via search-->
-          <input class="form-check-input" id="fc-set-ispublic" name="fc-set-ispublic" aria-describedby="fc-set-ispublic"  type="checkbox" value="">
+          <input class="form-check-input" id="fc-set-onfeed" name="fc-set-onfeed" aria-describedby="fc-set-onfeed-help" checked type="checkbox">
 
-          <small class="form-text text-gray-500" id="fc-set-ispublic">Other users will be able to access this set</small>
+          <small class="form-text text-gray-500" id="fc-set-onfeed-help">Let your followers see this on their feed & your profile.</small>
+				</div>
+			</div>
+      <div class="col-sm-6 ">
+				<div class="form-check p-3">
+					<label class="form-check-label" for="fc-set-ispublic">
+            <i class="fas fa-globe fa-sm"></i> Add to community
+          </label> 
+
+          <!--Checkbox to select if the user would like this set to be publically available via search-->
+          <input class="form-check-input" id="fc-set-ispublic" name="fc-set-ispublic" aria-describedby="fc-set-ispublic-help"  type="checkbox">
+
+          <small class="form-text text-gray-500" id="fc-set-ispublic-help">Contribute to our community so that anybody can find this.</small>
 				</div>
 			</div>
     </div>

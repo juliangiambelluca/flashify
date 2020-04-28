@@ -26,7 +26,7 @@ Flashcard Editor - Flashify
 <div class="row">
 	<br>
 </div>
-<form id="create-set-form" action="{{ route('potato.me') }}" method="POST">
+<form id="create-set-form" action="{{ route('create.set') }}" method="POST">
 <div class="row">
 		<div class="col-md-6">
 			@include('components.editor.set-edit')

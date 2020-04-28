@@ -10,7 +10,19 @@ Flashcard Editor - Flashify
 <div class="row d-sm-flex align-items-center justify-content-between mb-4">
 
 		<div class="col-lg-6">
-			<h1 class="h1 text-gray-800">Add cards to set.</h1>
+			<h1 class="h1 text-gray-800">
+			
+
+			@if($newSetInfo->id)
+				{{ $newSetInfo->title }}
+			@else 
+				@php
+				header("Location: http://flashify.gg/set-editor");
+				exit(); 
+				@endphp
+			@endif
+			
+			</h1>
 		</div>
 		<div class="col-md-2">
 			<a class="hover-feedback" href="#">
@@ -47,18 +59,7 @@ Flashcard Editor - Flashify
 		</div>
 	
 </div>
-@if(Session::has('newSetInfo'))
-<div class="row">
-	<div class="col-md-6">
-		<div class="alert alert-info alert-dismissible fade show" role="alert">
-		<strong>"{{ Session::get('newSetInfo') }}"</strong> set created.
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		</div>
-	</div>
-</div>
-@endif
+
 
 
 <div class="row">

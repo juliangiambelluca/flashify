@@ -27,13 +27,10 @@ Route::get('/logout', [
 ]); 
 
 
-Route::get('/create', function () {
-    return view('pages.set-editor');
-})->name("pages.set-editor");
 
-Route::post('/potato', [
-    'uses' => 'SetController@validateSet',
-    'as' => 'potato.me'
+Route::post('/create-set', [
+    'uses' => 'SetController@createSet',
+    'as' => 'create.set'
 ]); 
 
 Route::get('/study', [
@@ -44,6 +41,10 @@ Route::get('/study', [
 Route::get('/cards-editor', function () {
     return view('pages.cards-editor');
 })->name("pages.cards-editor");
+
+Route::get('/set-editor', function () {
+    return view('pages.set-editor');
+})->name("pages.set-editor");
 
 Route::get('/profile', function () {
     return view('pages.profile');
