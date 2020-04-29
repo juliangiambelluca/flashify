@@ -48,7 +48,7 @@ fc-set-ispublic = boolean specifiying if this set should be publically available
         </div>
 
         <!--The hidden text field to the which the selected colour will be written into-->
-        <input type="hidden" id="fc-set-color" name="fc-set-color" value="rgb(78, 115, 223)">
+        <input type="hidden" id="fc-set-color" name="fc-set-color" value=" {{ $set->color ?? 'rgb(78, 115, 223)' }} ">
 
       </div>
     </div>

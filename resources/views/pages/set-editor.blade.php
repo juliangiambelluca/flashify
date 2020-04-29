@@ -8,11 +8,9 @@
 	<!-- Wrong inputs alert to be displayed by javascript -->
 	<div id="input-error-alert" class="row" style="display:none">
 		<div class="col-md-6">
-			<div class="alert border-left-danger alert-danger alert-dismissible fade show" role="alert">
+			<div class="alert border-left-danger alert-danger fade show" role="alert">
 				<strong>Oops!</strong><br>
 				<span id="input-errors"></span>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
 			</button>
 			</div>
 		</div>
@@ -47,6 +45,8 @@
 			fc-set-ispublic = boolean specifiying if this set should be publically available in search
 			-->
 			{{ csrf_field() }}
+			<input type="hidden" id="fc-set-id" name="fc-set-id" value="{{ $set->id ?? '' }}">
+
 			<div class="row">
 			<div class="col-lg-9 col-xl-6">
 			<a onclick="getInputs()" href="#">

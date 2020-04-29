@@ -42,9 +42,12 @@ Route::get('/cards-editor', function () {
     return view('pages.cards-editor');
 })->name("pages.cards-editor");
 
-Route::get('/editor', function () {
-    return view('pages.editor');
-})->name("pages.editor");
+//sdfsadfasdfasdfasdfasdf
+Route::get('/editor/{setID?}', [
+    'uses' => 'SetController@prepEditor',
+    'as' => 'pages.editor'
+]); 
+
 
 Route::get('/set-editor', function () {
     return view('pages.set-editor');

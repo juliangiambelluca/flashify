@@ -9,15 +9,15 @@
 			</h1>
 		</div>
 		<div class="col-md-2">
-			<a class="hover-feedback" href="#" onclick="showSetEditor()">
-				<div class="card-body" style="padding: 1.2rem 0.5rem 1rem 0.5rem">
+			<a href="#" onclick="showSetEditor()">
+				<div class="card-body hover-feedback" style="padding: 1.2rem 0.5rem 1rem 0.5rem">
 					<div class="row no-gutters align-items-center">
-						<div class="col-2" style="text-align: center">
+						<div class="col-2 arrow-effect-left" style="text-align: center">
 							<i class="fas fa-arrow-left text-secondary" style="transform: scale(1.3)"></i>
 						</div>
 						<div class="col-10">
 							<div class="h5 mb-0 font-weight-bold text-secondary">
-								Edit Card Set
+								Back to Card Set
 							</div>
 						</div>
 					</div>

@@ -32,6 +32,23 @@ class SetController extends Controller
 
 
 
+
+    public function prepEditor($setID=0){   
+        //YOU MUST ALSO GET A USER TOKEN IN FUTURE
+
+        $set = Set::find($setID);
+
+        if(isset($set->title)){
+            //If the set exists, (future: and the user tokens match), send set data to view
+            return view('pages.editor', ["set" => $set]);
+        } else {
+            //Either the set doesn't exist or no parameter was passed. Pass no data to view.
+            return view('pages.editor');
+        }
+
+    }
+
+
     public function createSet(Request $request, Store $session){
 
         $attributeNames = array(
@@ -61,9 +78,22 @@ class SetController extends Controller
             'onfeed' => $onFeedChecked,
             'ispublic' => $isPublicChecked
         ]);
-        $set->save();
 
-        return "set-created";
+        $oldSet = Set::find($request->input('fc-set-id'));
+
+        if (isset($oldSet->id)){
+            $oldSet->title = $request->input('fc-set-title');
+            $oldSet->description = $request->input('fc-set-desc');
+            $oldSet->onfeed = $onFeedChecked;
+            $oldSet->ispublic = $isPublicChecked;
+            $oldSet->save();
+            $currentID = $oldSet->id;
+        }else{
+            $set->save();
+            $currentID = $set->id;
+        }
+
+        return ("success," . $currentID) ;
     }
 
 }

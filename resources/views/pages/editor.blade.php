@@ -48,22 +48,34 @@ function createSet(setInputs){
 
 
     sendPackage() .then(response => {
-        if(response==="set-created"){
+
+        //Successful response looks like "success,123" where 123 is the current ID
+        //It was much simpler to do this way than to receive an array from server.
+
+        //Split response into success & ID
+        let responseArray = response.split(",");
+
+        if(responseArray[0]==="success"){
+
             //The inputs were correct & the data saved to the database  
+            //Set current card's ID to enable updating db instead of insert
+            document.getElementById("fc-set-id").value = responseArray[1];
+
+            $( "#input-error-alert" ).css( "display", "none" );    
             $("#cards-editor-page").fadeIn(750);
             $( "#set-editor-page" ).css( "display", "none" );    
 
         } else {
-            alert("Weird response received")
+            //Unexpected response from server
+            $("#input-error-alert").fadeIn(450);
+            $( "#input-errors" ).html("Something went wrong. Please try again. [Details: Unexpected response from server]");
 
         }
     })
     .catch(response => {
-
+        
         if(response.status===422) {
             let responseObj = JSON.parse(response.responseText);
-
-            
             $("#input-error-alert").fadeIn(450);
             $( "#input-errors" ).html("");
 
@@ -73,8 +85,8 @@ function createSet(setInputs){
 
         } else {
             //Something else went wrong
-        console.log("Catch triggered. Response:");
-        console.log(response);
+            $("#input-error-alert").fadeIn(450);
+            $( "#input-errors" ).html(`Something went wrong. Please try again. [Details: Exception Caught. HTTP status: ${response.status}]`);
         }
        
     });

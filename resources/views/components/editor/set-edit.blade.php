@@ -17,12 +17,12 @@ containing the title and description for this set.
 	<form>
 		<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
 			<input autofocus class="form-control title-input transparent-input h6 m-0 font-weight-bold text-primary" maxlength="64" 
-			id="fc-set-title" name="fc-set-title" placeholder="Edit Card Set Title" type="text">
+			id="fc-set-title" name="fc-set-title" placeholder="Edit Card Set Title" type="text" value="{{ $set->title ?? '' }}">
 		</div>
 		<div class="card-body">
 			<textarea aria-describedby="fc-set-desc-help" class="form-control transparent-input" 
-			id="fc-set-desc" name="fc-set-desc" maxlength="256" placeholder="Edit card set description" rows="4"></textarea> 
-			<small class="form-text text-gray-500" id="fc-set-desc-help">Max. 256 Characters.</small> 
+			id="fc-set-desc" name="fc-set-desc" maxlength="256" placeholder="Edit card set description" rows="4" >{{ $set->description ?? ''  }}</textarea> 
+			<small class="form-text text-gray-500" id="fc-set-desc-help"">Max. 256 Characters.</small> 
 		</div>
 	</form>
 </div>
