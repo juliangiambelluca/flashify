@@ -32,9 +32,6 @@ class SetController extends Controller
 
 
 
-
-
-
     public function createSet(Request $request, Store $session){
 
         $attributeNames = array(
@@ -65,9 +62,8 @@ class SetController extends Controller
             'ispublic' => $isPublicChecked
         ]);
         $set->save();
-        
 
-        return view('pages.cards-editor', ["newSetInfo" => $set]);
+        return "set-created";
     }
 
 }

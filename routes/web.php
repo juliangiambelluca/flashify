@@ -42,6 +42,10 @@ Route::get('/cards-editor', function () {
     return view('pages.cards-editor');
 })->name("pages.cards-editor");
 
+Route::get('/editor', function () {
+    return view('pages.editor');
+})->name("pages.editor");
+
 Route::get('/set-editor', function () {
     return view('pages.set-editor');
 })->name("pages.set-editor");

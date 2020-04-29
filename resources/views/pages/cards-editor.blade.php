@@ -1,31 +1,15 @@
-@extends('layouts.dash') 
 
-@section('page-title')
-Flashcard Editor - Flashify
-@endsection
-
-
-@section('content') <!-- Page Heading -->
- <!-- Page Heading -->
 <div class="row d-sm-flex align-items-center justify-content-between mb-4">
 
 		<div class="col-lg-6">
 			<h1 class="h1 text-gray-800">
-			
-
-			@if($newSetInfo->id)
-				{{ $newSetInfo->title }}
-			@else 
-				@php
-				header("Location: http://flashify.gg/set-editor");
-				exit(); 
-				@endphp
-			@endif
+		
+			the title innit
 			
 			</h1>
 		</div>
 		<div class="col-md-2">
-			<a class="hover-feedback" href="#">
+			<a class="hover-feedback" href="#" onclick="showSetEditor()">
 				<div class="card-body" style="padding: 1.2rem 0.5rem 1rem 0.5rem">
 					<div class="row no-gutters align-items-center">
 						<div class="col-2" style="text-align: center">
@@ -146,4 +130,3 @@ scrollTop: $("#" + z.id).offset().top
 	<br>
 </div><!-- /.container-fluid -->
 <!-- End of Main Content -->
-@endsection

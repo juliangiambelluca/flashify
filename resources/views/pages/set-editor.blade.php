@@ -1,28 +1,32 @@
-@extends('layouts.dash') 
-@section('page-title')
-Flashcard Editor - Flashify
-@endsection
-
-@section('content')
 <div class="row d-sm-flex align-items-center justify-content-between mb-4">
 	<div class="col-12">
 	<h1 class="h1 text-gray-800">Create a new set.</h1>
 	</div></div>
-	@if(count($errors->all()))
-<div class="row">
-	<div class="col-md-6">
-		<div class="alert border-left-danger alert-danger alert-dismissible fade show" role="alert">
-			<strong>Oops!</strong><br>
-			@foreach($errors->all() as $error)
-				{{ $error }} <br>
-			@endforeach
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
+
+
+
+	<!-- Wrong inputs alert to be displayed by javascript -->
+	<div id="input-error-alert" class="row" style="display:none">
+		<div class="col-md-6">
+			<div class="alert border-left-danger alert-danger alert-dismissible fade show" role="alert">
+				<strong>Oops!</strong><br>
+				<span id="input-errors"></span>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			</div>
 		</div>
 	</div>
-</div>
-@endif
+
+
+
+
+
+
+
+
+
+
 <div class="row">
 	<br>
 </div>
@@ -43,7 +47,9 @@ Flashcard Editor - Flashify
 			fc-set-ispublic = boolean specifiying if this set should be publically available in search
 			-->
 			{{ csrf_field() }}
-			<a onclick="document.getElementById('create-set-form').submit();" href="#">
+			<div class="row">
+			<div class="col-lg-9 col-xl-6">
+			<a onclick="getInputs()" href="#">
 				<div class="card border-left-success shadow hover-feedback py-2">
 					<div class="card-body" style="padding: 0.5rem">
 						<div class="row no-gutters align-items-center">
@@ -60,6 +66,8 @@ Flashcard Editor - Flashify
 				</div>
 			</a>
 		</div>
+		</div>
+		</div>
 
 </div>
 </form>
@@ -67,4 +75,3 @@ Flashcard Editor - Flashify
 	<br>
 </div><!-- /.container-fluid -->
 <!-- End of Main Content -->
-@endsection
