@@ -20,3 +20,17 @@ containing the text for the back of this flashcard.
 		</div>
 	</form>
 </div>
+
+<!-- <div class="card card-set shadow m-2 border-left-info hover-feedback-light">
+		<div class="card-body">
+			<textarea 
+			maxlength="512" placeholder="Edit back of card" rows="7"
+			class="form-control transparent-input" 
+			aria-describedby="fc-edit-back-help-{{ $prepCardIDCounter ?? '${globalCardIDCounter}' }}" 
+			id="fc-edit-back-{{ $prepCardIDCounter ?? '${globalCardIDCounter}' }}" 
+			name="fc-edit-back-{{ $prepCardIDCounter ?? '${globalCardIDCounter}' }}">{{ $currentCardBack ?? '' }}</textarea> 
+			<small class="form-text text-gray-500" id="fc-edit-back-help-{{ $prepCardIDCounter ?? '${globalCardIDCounter}' }}">
+				Max. 512 Characters.
+			</small> 
+		</div>
+</div> -->

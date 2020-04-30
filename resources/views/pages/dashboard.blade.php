@@ -15,7 +15,7 @@ Dashboard - Flashify
 		</div>
 
 		<div class="col-lg-4">
-    <a href="{{ route('pages.set-editor') }}">
+    <a href="{{ route('pages.editor') }}">
                 <div class="card header-card-button hover-feedback border-left-success shadow py-2">
                     <div class="card-body" style="padding: 0.5rem">
                     <div class="row no-gutters align-items-center">

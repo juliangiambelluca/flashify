@@ -33,6 +33,11 @@ Route::post('/create-set', [
     'as' => 'create.set'
 ]); 
 
+Route::post('/create-cards', [
+    'uses' => 'FlashcardController@createCards',
+    'as' => 'create.cards'
+]); 
+
 Route::get('/study', [
     'uses' => 'FlashcardController@listFlashcards',
     'as' => 'pages.viewer'
@@ -42,7 +47,6 @@ Route::get('/cards-editor', function () {
     return view('pages.cards-editor');
 })->name("pages.cards-editor");
 
-//sdfsadfasdfasdfasdfasdf
 Route::get('/editor/{setID?}', [
     'uses' => 'SetController@prepEditor',
     'as' => 'pages.editor'

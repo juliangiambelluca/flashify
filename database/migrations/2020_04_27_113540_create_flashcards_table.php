@@ -16,9 +16,9 @@ class CreateFlashcardsTable extends Migration
         Schema::create('flashcards', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->integer('set_id');
             $table->string('front', 512);
             $table->string('back', 512);
-
         });
     }
 

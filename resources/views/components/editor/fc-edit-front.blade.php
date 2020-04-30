@@ -15,16 +15,26 @@ containing the text for the front of this flashcard.
 				<textarea aria-describedby="fc-edit-front-help-${globalCardIDCounter}" class="form-control transparent-input" 
 				id="fc-edit-front-${globalCardIDCounter}" name="fc-edit-front-${globalCardIDCounter}" maxlength="512" placeholder="Edit front of card" rows="7"></textarea> 
 				<small class="form-text text-gray-500" id="fc-edit-front-help-${globalCardIDCounter}">Max. 512 Characters.</small>
-
-
-
-			
-
-
-
-
-
-
-
 		</div>
 </div>
+<!-- 
+	<div class="card card-set shadow m-2 border-left-success hover-feedback-light">
+		<div class="card-body">
+			<div class="text-right" style="margin: -12px -10px">
+				<a href="#" class="tool-tip">
+					<span class="tool-tip-text">Delete card</span>
+					<i class="fas fa-trash-alt fa-sm fa-fw text-danger"></i>
+				</a>
+			</div>
+			<textarea 
+			maxlength="512" placeholder="Edit front of card" rows="7"
+			class="form-control transparent-input" 
+			aria-describedby="fc-edit-front-help-{{ $prepCardIDCounter ?? '${globalCardIDCounter}' }}" 
+			id="fc-edit-front-{{ $prepCardIDCounter ?? '${globalCardIDCounter}' }}" 
+			name="fc-edit-front-{{ $prepCardIDCounter ?? '${globalCardIDCounter}' }}">{{ $currentCard ?? '' }}</textarea> 
+			<small class="form-text text-gray-500" id="fc-edit-front-help-{{ $prepCardIDCounter ?? '${globalCardIDCounter}' }}">
+				Max. 512 Characters.
+			</small>
+		</div>
+</div>
+ -->

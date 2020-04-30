@@ -36,7 +36,7 @@
           <span>My Card Sets</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('pages.set-editor') }}">
+        <a class="nav-link" href="{{ route('pages.editor') }}">
           <i class="fas fa-fw fa-plus"></i>
           <span>Create A Set</span></a>
       </li>

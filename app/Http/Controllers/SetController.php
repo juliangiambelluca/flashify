@@ -3,44 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Set;
-use App\Http\Requests;
 use Illuminate\Http\Request;
-use Illuminate\Session\Store;
-use Illuminate\Routing\Redirector;
+
 
 
 class SetController extends Controller
 {
-    public function getRecents(Store $session){
-        $set = new Set();
-        $sets = $set->getSets($session);
-        return view('pages.dashboard', compact("sets"));
-    }
-
-    public function getMySets(Store $session){
+    public function getMySets(){
         $sets = Set::all();
         return view('pages.my-sets', compact("sets"));
     }
-
-
-    
-    public function logout(Store $session){
-        $set = new Set();
-        $set->logout($session);
-        return view('pages.my-sets');
-    }
-
-
-
 
     public function prepEditor($setID=0){   
         //YOU MUST ALSO GET A USER TOKEN IN FUTURE
 
         $set = Set::find($setID);
 
+        if(isset($set->flashcards)){ $flashcards = $set->flashcards;}
+       
+
         if(isset($set->title)){
             //If the set exists, (future: and the user tokens match), send set data to view
-            return view('pages.editor', ["set" => $set]);
+            return view('pages.editor', ["set" => $set, "flashcards" => $flashcards]);
         } else {
             //Either the set doesn't exist or no parameter was passed. Pass no data to view.
             return view('pages.editor');
@@ -49,7 +33,7 @@ class SetController extends Controller
     }
 
 
-    public function createSet(Request $request, Store $session){
+    public function createSet(Request $request){
 
         $attributeNames = array(
             'fc-set-title' => 'Title',
@@ -88,6 +72,8 @@ class SetController extends Controller
             $oldSet->ispublic = $isPublicChecked;
             $oldSet->save();
             $currentID = $oldSet->id;
+
+            
         }else{
             $set->save();
             $currentID = $set->id;
