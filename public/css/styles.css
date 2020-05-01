@@ -132,10 +132,14 @@ a {
     margin: -5px 15px 0px 0px
 }
 
+/* Flashcards creator styles */
+.error-outline {
+    border: Solid 5px Red;
+}
 
 /* Flashcard viewer styles */
 #modal-card-text{
-    overflow-wrap: break-word;
+    overflow-wrap: anywhere;
     padding-top: 50px;
     padding-bottom: 50px;
     min-height: 250px;

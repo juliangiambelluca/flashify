@@ -20,7 +20,6 @@ class SetController extends Controller
         $set = Set::find($setID);
 
         if(isset($set->flashcards)){ $flashcards = $set->flashcards;}
-       
 
         if(isset($set->title)){
             //If the set exists, (future: and the user tokens match), send set data to view
@@ -72,8 +71,6 @@ class SetController extends Controller
             $oldSet->ispublic = $isPublicChecked;
             $oldSet->save();
             $currentID = $oldSet->id;
-
-            
         }else{
             $set->save();
             $currentID = $set->id;

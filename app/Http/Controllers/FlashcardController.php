@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Flashcard;
+use App\Set;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
@@ -10,45 +11,57 @@ class FlashcardController extends Controller
 {   
 
     public function createCards(Request $request){
-
+        
         $cardCount = $request->input('cardCount');
-
+        $currentSetID = $request->input('setID');
+        //Validate inputs
         $rules = array();
-
-        for ($i = 0; $i <= $cardCount; $i++){
+        for ($i = 0; $i < $cardCount; $i++){
         $rules['fc-edit-front-' . $i] = "required|max:512";
         $rules['fc-edit-back-' . $i] = "required|max:512";
         };
-        $attributeNames = array();
-        $customMessages = array();
+        $customMessages = array(
+            'required' => 'Please make sure there are no empty cards.',
+            'max' => 'Please make sure each card is under 512 characters per side.',
+        );
+        $this->validate($request, $rules, $customMessages);
 
-        $this->validate($request, $rules, $customMessages, $attributeNames);
+        //Update or insert inputs
+        $newCardIDs = array();
+        $oldSet = Set::find($currentSetID);
 
-        $set = new Set();
+        if (isset($oldSet->title)){
+            //Expected behaviour. Card Should have been already created and its ID passed.
+            for ($i = 0; $i < $cardCount; $i++){
+                $currentCardDBID = $request->input('fc-db-id-' . $i);
+                $oldFlashcard = Flashcard::find($currentCardDBID);
 
-        for ($i = 0; $i <= $cardCount; $i++){
-            
-            $oldCard = Flashcard::find()
-
-
-        }
-
-
-
-        $oldSet = Set::find($request->input('fc-set-id'));
-
-        if (isset($oldSet->id)){
-            $oldSet->title = $request->input('fc-set-title');
-            $oldSet->description = $request->input('fc-set-desc');
-            $oldSet->onfeed = $onFeedChecked;
-            $oldSet->ispublic = $isPublicChecked;
-            $oldSet->save();
-            $currentID = $oldSet->id;
+                if (isset($oldFlashcard->front)){
+                    //Card was already created before. Update it.
+                    $oldFlashcard->front = $request->input('fc-edit-front-' . $i);
+                    $oldFlashcard->back = $request->input('fc-edit-back-' . $i);
+                    $oldSet->flashcards()->save($oldFlashcard);
+                } else {
+                    //Card doesn't already exist. Insert it.
+                    $flashcard = new Flashcard([
+                        'front' => $request->input('fc-edit-front-' . $i),
+                        'back' => $request->input('fc-edit-back-' . $i),
+                    ]);
+                    $oldSet->flashcards()->save($flashcard);
+                    $newCardIDs['fc-db-id-' . $i] = $flashcard->id;
+                }
+            };
+            $result = "success";
         }else{
-            $set->save();
-            $currentID = $set->id;
+            //Unexpected behaviour. Set cannot be found.
+            $result = "unexpected";
         }
 
-        return ("success," . $currentID) ;
+        $response = array(
+            "result" => $result,
+            "newCardIDs" => $newCardIDs
+        );
+     
+        return ($response);
     }
 }

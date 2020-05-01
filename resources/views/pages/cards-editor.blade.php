@@ -21,7 +21,7 @@
 		</a>
 	</div>
 	<div class="col-lg-4">
-		<a href="#">
+		<a href="#" onclick="saveCards()">
 			<div class="card border-left-primary hover-feedback shadow py-2">
 				<div class="card-body" style="padding: 0.5rem">
 					<div class="row no-gutters align-items-center">
@@ -40,25 +40,40 @@
 	</div>
 </div>
 
+
+
+<!-- Wrong inputs alert to be displayed by javascript -->
+<div id="cards-input-error-alert" class="row" style="display:none">
+	<div class="col-md-6">
+		<div class="alert border-left-danger alert-danger fade show" role="alert">
+			<strong>Oops!</strong><br>
+			<span id="cards-input-errors"></span>
+		</button>
+		</div>
+	</div>
+</div>
+
+
+
 <!-- Padding row -->
 <div class="row">
 	<br>
+	<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<div id="debug" style="overflow-wrap: anywhere; "></div>
 </div>
 
 <form id="create-cards-form">
+	{{ csrf_field() }}
 	<div class="row">
 		<div class="col-12" id="newCardsArea">
 			<!-- Javascript to generate cards into here -->
 			
-@php
-//In function to protect scope.
-
+<?PHP
 if(isset($flashcards)){
 	prepCards($flashcards);
 } else {
 	echo "<script>let globalCardIDCounter = 0;</script>";
 }
-
 
 function prepCards($flashcards){
 
@@ -70,8 +85,7 @@ function prepCards($flashcards){
 		$currentCardBack = $flashcard->back;
 
 $cardToInsert = <<<EOD
-
-<div class="row">
+<div class="row" id="flashcard-id-$prepCardIDCounter">
 	<div class="col-md-6">
 		<div class="card card-set shadow m-2 border-left-success hover-feedback-light">
 			<div class="card-body">
@@ -115,12 +129,9 @@ EOD;
 		echo $cardToInsert; 
 		$prepCardIDCounter++;
 	}
-	
-echo "<script>let globalCardIDCounter = " . $prepCardIDCounter . ";</script>";
+	echo "<script>let globalCardIDCounter = " . $prepCardIDCounter . ";</script>";
 }
-
-
-@endphp
+?>
 		</div>
 	</div>        
 			
@@ -143,8 +154,12 @@ echo "<script>let globalCardIDCounter = " . $prepCardIDCounter . ";</script>";
 
 <script>
 
-if(globalCardIDCounter===0){addCard()};
-function addCard(){
+if(globalCardIDCounter===0){addCard(false)};
+
+function addCard(autoSave = true){
+
+	if(autoSave === true){saveCards();};
+
 	const newCard = `
 		<div class="col-md-6">
 			@include('components.editor.fc-edit-front')
@@ -152,6 +167,7 @@ function addCard(){
 		<div class="col-md-6">
 			@include('components.editor.fc-edit-back')
 		</div>
+		<input type="hidden" name="fc-db-id-${globalCardIDCounter}" value="">
 			`;
 		
 
@@ -171,15 +187,15 @@ function addCard(){
 	},800);
 }
 
-function autoSave(){
-	
+function saveCards(){
+
 	//Get Inputs
     let cardInputs = {};
-    //Put all inputs into object
     $.each($('#create-cards-form').serializeArray(), function(i, field) {
         cardInputs[field.name] = field.value;
     });
 
+	//Send inputs
     const sendPackage = () => {
 		const currentSetID = document.getElementById("fc-set-id").value;
 		cardInputs.setID = currentSetID;
@@ -193,30 +209,38 @@ function autoSave(){
 				data: cardInputs,
                 success: function (response) {
                     resolve(response);
+					$( "#debug" ).html("Success! Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
+
                 },
                 error: function (response) {
                     reject(response);
+					$( "#debug" ).html("Error. Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
                 },
             });
          });
     }
 
     sendPackage().then(response => {
+		let responseObj = JSON.parse(response);
+        if(responseObj.result==="success"){
+			//Clear error outline as inputs are now valid.
+			$( ".error-outline" ).css( "border", "10px solid red" );
 
-        if(response==="success"){
+			//Set new card's database ID from response object.
+			//This will inform laravel not to create a new card next time it sees it.
+			for (const property in responseObj.newCardIDs) {
+				//Property looks like fc-db-id-x
+				//Property holds the ID of the hidden input that holds its respective card's database ID
+				//Object property is the new Database ID for its respective card.
+				$( "#" + property ).val(responseObj.newCardIDs[property]);
+			}
 
-            //The inputs were correct & the data saved to the database  
-            //Set current card's ID to enable updating db instead of insert
-            document.getElementById("fc-set-id").value = responseArray[1];
-
-            $( "#input-error-alert" ).css( "display", "none" );    
-            $("#cards-editor-page").fadeIn(750);
-            $( "#set-editor-page" ).css( "display", "none" );    
+            $("#cards-input-error-alert").css( "display", "none" );    
 
         } else {
             //Unexpected response from server
-            $("#input-error-alert").fadeIn(450);
-            $( "#input-errors" ).html("Something went wrong. Please try again. [Details: Unexpected response from server]");
+            $("#cards-input-error-alert").fadeIn(450);
+            $( "#cards-input-errors" ).html("Something went wrong. Please try again. [Details: Unexpected response from server]");
 
         }
     })
@@ -224,17 +248,22 @@ function autoSave(){
         //If data validation fails, Laravel responds with status code 422 & Error messages in JSON.
         if(response.status===422) {
             let errorMsgsObj = JSON.parse(response.responseText);
-            $("#input-error-alert").fadeIn(450);
-            $( "#input-errors" ).html("");
+            $("#cards-input-error-alert").fadeIn(450);
+            $( "#cards-input-errors" ).html("Please ensure no cards are empty and do not exceed 512 characters per side.");
 
             //Extract each error message and append to alert
             for (const property in errorMsgsObj) {
-                $( "#input-errors" ).append( errorMsgsObj[property] + "<br>");
+				$("#" + property).addClass("error-outline");  
             }
+
+			$('html, body').animate({
+			scrollTop: $("html").offset().top
+			},800);
+
         } else {
             //Something else went wrong
-            $("#input-error-alert").fadeIn(450);
-            $( "#input-errors" ).html(`Something went wrong. Please try again. [Details: Exception Caught. HTTP status: ${response.status}]`);
+            $("#cards-input-error-alert").fadeIn(450);
+            $("#cards-input-errors" ).html(`Something went wrong. Please try again. [Details: Exception Caught. HTTP status: ${response.status}]`);
         }
     });
 }
