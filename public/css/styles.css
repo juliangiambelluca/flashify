@@ -44,7 +44,7 @@ a {
 
 
 /* HOVER FEEDBACK EFFECTS SECTION */
-.hover-feedback, .hover-feedback-light {
+.hover-feedback, .hover-feedback-light, .hover-feedback-strong {
     transform: scale(1);
     transition: 0.2s;
 }
@@ -55,6 +55,9 @@ a {
 .hover-feedback:active{
     transform: scale(1.02);
     transition: ease-out;
+}
+.hover-feedback-strong:hover{
+    transform: scale(1.1);
 }
 
 .hover-feedback-light:hover{
@@ -86,7 +89,6 @@ a {
 /* Card Set styles */
 .card-set a {
     cursor: pointer;
-
 }
 
 .mini-card-gradient{
@@ -134,8 +136,24 @@ a {
 
 /* Flashcards creator styles */
 .error-outline {
-    border: Solid 5px Red;
+    border: Solid 1px Red;
+    background-color: rgb(255, 240, 240);
 }
+.toast-alerts{
+position: fixed;
+z-index: 999;
+bottom: 30px;
+}
+
+.flashcard-input-front{
+    font-size: 1.3rem;
+}
+.flashcard-input-back{
+    font-size: 1.3rem;
+}
+
+
+
 
 /* Flashcard viewer styles */
 #modal-card-text{

@@ -14,22 +14,37 @@ class SetController extends Controller
         return view('pages.my-sets', compact("sets"));
     }
 
-    public function prepEditor($setID=0){   
+    public function prepEditor($setID = -1){   
         //YOU MUST ALSO GET A USER TOKEN IN FUTURE
-
-        $set = Set::find($setID);
-
-        if(isset($set->flashcards)){ $flashcards = $set->flashcards;}
-
-        if(isset($set->title)){
-            //If the set exists, (future: and the user tokens match), send set data to view
-            return view('pages.editor', ["set" => $set, "flashcards" => $flashcards]);
+        if($setID === -1){
+            //Nothing passed, if user tries to access -1 it gets treated as a string.
+            //Create a new empty set
+            $set = new Set([]);
+            $set->save();
+            $currentID = $set->id;
+            return redirect('editor/' . $currentID);
         } else {
-            //Either the set doesn't exist or no parameter was passed. Pass no data to view.
-            return view('pages.editor');
-        }
+            //Check ID and if set exists
+            $set = Set::find($setID);   
 
+            if($set->title !== null){ 
+            //Set exists and has data
+                //Load cards if they exist
+                if(isset($set->flashcards)){
+                    $flashcards = $set->flashcards;
+                };
+                return view('pages.editor' , ["set" => $set, "flashcards" => $flashcards]);
+            } else if (isset($set->id)) {
+            //Empty set has been prepared, show editor.
+                return view('pages.editor' , ["set" => $set]);
+            } else {
+                //Set passed was not found
+                return("404, Card not found");
+            }
+        }
     }
+
+
 
 
     public function createSet(Request $request){

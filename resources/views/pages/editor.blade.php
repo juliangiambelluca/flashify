@@ -31,6 +31,11 @@ function showCardsEditor () {
     $( "#input-error-alert" ).css( "display", "none" );    
     $("#cards-editor-page").fadeIn(750);
     $( "#set-editor-page" ).css( "display", "none" );
+
+    //addCard (bool:autoSave) 
+    if(globalCardIDCounter===0){
+        addCard(false)
+    };
 }
  
 </script>

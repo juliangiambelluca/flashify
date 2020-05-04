@@ -38,6 +38,11 @@ Route::post('/create-cards', [
     'as' => 'create.cards'
 ]); 
 
+Route::post('/delete-card', [
+    'uses' => 'FlashcardController@deleteCard',
+    'as' => 'delete.card'
+]); 
+
 Route::get('/study', [
     'uses' => 'FlashcardController@listFlashcards',
     'as' => 'pages.viewer'

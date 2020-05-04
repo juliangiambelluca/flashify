@@ -4,7 +4,7 @@
 		the title innit
 		</h1>
 	</div>
-	<div class="col-md-2">
+	<div class="col-10 col-sm-6 col-lg-2">
 		<a href="#" onclick="showSetEditor()">
 			<div class="card-body hover-feedback" style="padding: 1.2rem 0.5rem 1rem 0.5rem">
 				<div class="row no-gutters align-items-center">
@@ -58,9 +58,13 @@
 <!-- Padding row -->
 <div class="row">
 	<br>
-	<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<!-- DEBUGGING RESPONSE -->
 	<div id="debug" style="overflow-wrap: anywhere; "></div>
 </div>
+
+
+
+
 
 <form id="create-cards-form">
 	{{ csrf_field() }}
@@ -68,70 +72,8 @@
 		<div class="col-12" id="newCardsArea">
 			<!-- Javascript to generate cards into here -->
 			
-<?PHP
-if(isset($flashcards)){
-	prepCards($flashcards);
-} else {
-	echo "<script>let globalCardIDCounter = 0;</script>";
-}
+			@include("components.editor.fc-edit-preloader")
 
-function prepCards($flashcards){
-
-	$prepCardIDCounter = 0;
-
-	foreach($flashcards as $flashcard){
-		$currentCardID = $flashcard->id;
-		$currentCardFront = $flashcard->front;
-		$currentCardBack = $flashcard->back;
-
-$cardToInsert = <<<EOD
-<div class="row" id="flashcard-id-$prepCardIDCounter">
-	<div class="col-md-6">
-		<div class="card card-set shadow m-2 border-left-success hover-feedback-light">
-			<div class="card-body">
-				<div class="text-right" style="margin: -12px -10px">
-					<a href="#" class="tool-tip">
-						<span class="tool-tip-text">Delete card</span>
-						<i class="fas fa-trash-alt fa-sm fa-fw text-danger"></i>
-					</a>
-				</div>
-				<textarea 
-				maxlength="512" placeholder="Edit front of card" rows="7"
-				class="form-control transparent-input" 
-				aria-describedby="fc-edit-front-help-$prepCardIDCounter" 
-				id="fc-edit-front-$prepCardIDCounter" 
-				name="fc-edit-front-$prepCardIDCounter">$currentCardFront</textarea> 
-				<small class="form-text text-gray-500" id="fc-edit-front-help-$prepCardIDCounter">
-					Max. 512 Characters.
-				</small>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="card card-set shadow m-2 border-left-info hover-feedback-light">
-			<div class="card-body">
-				<textarea 
-				maxlength="512" placeholder="Edit back of card" rows="7"
-				class="form-control transparent-input" 
-				aria-describedby="fc-edit-back-help-$prepCardIDCounter" 
-				id="fc-edit-back-$prepCardIDCounter" 
-				name="fc-edit-back-$prepCardIDCounter">$currentCardBack</textarea> 
-				<small class="form-text text-gray-500" id="fc-edit-back-help-$prepCardIDCounter">
-					Max. 512 Characters.
-				</small> 
-			</div>
-		</div>
-	</div>
-	<input type="hidden" name="fc-db-id-$prepCardIDCounter" value="$currentCardID">
-</div>
-<hr>
-EOD;
-		echo $cardToInsert; 
-		$prepCardIDCounter++;
-	}
-	echo "<script>let globalCardIDCounter = " . $prepCardIDCounter . ";</script>";
-}
-?>
 		</div>
 	</div>        
 			
@@ -154,11 +96,21 @@ EOD;
 
 <script>
 
-if(globalCardIDCounter===0){addCard(false)};
+
+	
+
+let globalCardsOnScreen = globalCardIDCounter;
+
 
 function addCard(autoSave = true){
 
+
 	if(autoSave === true){saveCards();};
+
+	
+	globalIDsToValidate.push(globalCardIDCounter);
+	globalCardsOnScreen++;
+
 
 	const newCard = `
 		<div class="col-md-6">
@@ -167,17 +119,30 @@ function addCard(autoSave = true){
 		<div class="col-md-6">
 			@include('components.editor.fc-edit-back')
 		</div>
-		<input type="hidden" name="fc-db-id-${globalCardIDCounter}" value="">
+		<input type="hidden" id="fc-db-id-${globalCardIDCounter}" name="fc-db-id-${globalCardIDCounter}" value="">
 			`;
 		
 
 	let z = document.createElement('div');
 	z.innerHTML = newCard;
-	z.classList = "row"
+	z.classList = "row";
+	z.style.overflow ="hidden";
 	z.id = "flashcard-id-" + globalCardIDCounter;
 	document.getElementById('newCardsArea').appendChild(z);
 
+	newCardHeight = $(z).height();
+	z.style.height = "0px";
+	z.style.transition = "0.1s";
+	setTimeout(function(){
+		z.style.height = newCardHeight+"px";
+		setTimeout(function(){
+			z.style.overflow ="";
+	}, 100);
+	}, 100);
+
+
 	let hr = document.createElement('hr');
+	hr.id = "hr-id-" + globalCardIDCounter;
 	document.getElementById('newCardsArea').appendChild(hr);
 
 	globalCardIDCounter++;
@@ -195,11 +160,24 @@ function saveCards(){
         cardInputs[field.name] = field.value;
     });
 
+	//Don't send empty completely empty cards to server.
+	idsToValidate = globalIDsToValidate;
+	for(let i = 0; i <= globalCardIDCounter; i++){
+		if((cardInputs["fc-edit-front-" + i] == "") && (cardInputs["fc-edit-back-" +i] == "")){
+			delete cardInputs["fc-edit-front-" + i];
+			delete cardInputs["fc-edit-back-" + i];
+			delete cardInputs["fc-db-id-" + i];
+			const indexOfDeleted = idsToValidate.indexOf(i);
+			idsToValidate.splice(indexOfDeleted, indexOfDeleted + 1);  
+		}
+	}
+	
 	//Send inputs
     const sendPackage = () => {
 		const currentSetID = document.getElementById("fc-set-id").value;
 		cardInputs.setID = currentSetID;
 		cardInputs.cardCount = globalCardIDCounter;
+		cardInputs.idsToValidate = idsToValidate;
 
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -222,9 +200,9 @@ function saveCards(){
 
     sendPackage().then(response => {
 		let responseObj = JSON.parse(response);
-        if(responseObj.result==="success"){
+        if(responseObj.result==="success" || "no-cards-sent"){
 			//Clear error outline as inputs are now valid.
-			$( ".error-outline" ).css( "border", "10px solid red" );
+			$( ".error-outline" ).removeClass("error-outline");
 
 			//Set new card's database ID from response object.
 			//This will inform laravel not to create a new card next time it sees it.
@@ -234,9 +212,7 @@ function saveCards(){
 				//Object property is the new Database ID for its respective card.
 				$( "#" + property ).val(responseObj.newCardIDs[property]);
 			}
-
             $("#cards-input-error-alert").css( "display", "none" );    
-
         } else {
             //Unexpected response from server
             $("#cards-input-error-alert").fadeIn(450);
@@ -249,7 +225,7 @@ function saveCards(){
         if(response.status===422) {
             let errorMsgsObj = JSON.parse(response.responseText);
             $("#cards-input-error-alert").fadeIn(450);
-            $( "#cards-input-errors" ).html("Please ensure no cards are empty and do not exceed 512 characters per side.");
+            $( "#cards-input-errors" ).html("Please make sure that no cards are empty. Each side can hold up to 512 characters.");
 
             //Extract each error message and append to alert
             for (const property in errorMsgsObj) {
@@ -267,6 +243,171 @@ function saveCards(){
         }
     });
 }
+
+function clearInputError(input){
+	input.classList.remove("error-outline");
+}
+
+function highlightDeletions(mouseHover, pairToHighlight){
+	
+	if(mouseHover){
+		// Create stylesheet
+		const style = document.createElement('style');
+		style.innerHTML =
+			`#${pairToHighlight} .card-body {	
+				background-color: rgb(255, 240, 240);	
+				}`;
+		style.id = (pairToHighlight + "-highlight-style")
+		// Get the first script tag
+		const ref = document.querySelector('script');
+
+		// Insert our new styles before the first script tag
+		ref.parentNode.insertBefore(style, ref);
+	} else {
+		document.getElementById(pairToHighlight + '-highlight-style').outerHTML = "";
+	}
+}
+
+var globalUndoTimer; 
+function deleteCard(cardID){
+
+	const indexOfDeleted = globalIDsToValidate.indexOf(cardID);
+	globalIDsToValidate.splice(indexOfDeleted, indexOfDeleted + 1);  
+
+
+
+	//get db id from card id
+	const dbDeleteID = document.getElementById("fc-db-id-" + cardID).value;
+
+	const sendPackage = () => {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: '{{ route("delete.card") }}',
+                type: 'POST',
+                dataType: "text",
+				data: {
+        			"_token": "{{ csrf_token() }}",
+        			"deleteID": dbDeleteID
+     				},
+                success: function (response) {
+					$( "#debug" ).html("Success! Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
+                    resolve(response);
+                },
+                error: function (response) {
+					$( "#debug" ).html("Error. Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
+                    reject(response);
+                },
+            });
+         });
+    }
+
+    sendPackage().then(response => {
+        if(response==="deleted" || response==="not-saved"){
+
+
+
+			$("#fc-edit-back-" + cardID).removeAttr("name");
+			$("#fc-edit-front-" + cardID).removeAttr("name");
+			$("#fc-db-id-" + cardID).removeAttr("name");
+
+
+
+
+			const deletedCard = document.getElementById("flashcard-id-" + cardID);
+			const hr = document.getElementById("hr-id-" + cardID);
+			const oldHeight = $(deletedCard).height() + "px";
+
+			let undoButton = document.createElement('div');
+			undoButton.style.transition = "0.5s"; 
+			undoButton.style.opacity = "0%"; 
+			undoButton.style.height = oldHeight;
+			undoButton.style.width = "100%";
+			undoButton.style.display = "table";
+			undoButton.id = "card-undo-wrapper-" + cardID;
+			undoButtonActionID = cardID;
+			const undoButtonHTML = `
+				<div class="row" style="height: 100%;">
+					<div class="col-12">
+						<table style="height: 100%; width: 100%;">
+							<tr>
+								<td style="width: 50%; text-align: right; padding-right:20px">
+								<div>
+									<h4>Card Deleted</h4>
+									</div>
+								</td>
+								<td  style="width: 50%; padding-left: 30px;text-align: left">
+									<button  type="button" class="btn btn-outline-success hover-feedback" onclick="undoDelete(${undoButtonActionID})"><strong>UNDO</strong></button>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			`;
+			undoButton.innerHTML = undoButtonHTML;
+		
+			deletedCard.style.opacity = "100%"; 
+			deletedCard.style.transition = "0.10s"; 
+			deletedCard.style.opacity = "0%"; 
+
+			setTimeout(function(){
+				deletedCard.parentNode.insertBefore( undoButton, deletedCard.nextSibling );
+				deletedCard.style.display = "none";
+				setTimeout(function(){
+					undoButton.style.opacity = "100%"; 
+					undoButton.style.height = "100px";
+
+				}, 100);
+			}, 100);
+			
+			globalUndoTimer = setTimeout(function(){
+				undoButton.style.transition = "0.5s";
+				undoButton.style.height = "0px";
+				undoButton.style.opacity = "0%"; 
+				hr.style.transition = "0.5s";
+				hr.style.margin = "0px"
+				hr.style.opacity = "0%"; 
+				setTimeout(function(){	
+					globalCardsOnScreen--;
+					undoButton.outerHTML = "";
+					deletedCard.outerHTML = "";
+					hr.outerHTML = "" ;
+					if (globalCardsOnScreen === 0){
+						addCard();
+					}
+				},500)
+			},3500)
+
+        } 
+    })
+    .catch(response => {
+
+            //Something else went wrong
+            $("#cards-input-error-alert").fadeIn(450);
+            $("#cards-input-errors" ).html(`Something went wrong. Please try again. [Details: Exception Caught. HTTP status: ${response.status}]`);
+        
+    });
+
+}
+
+function undoDelete(cardID){
+	clearTimeout(globalUndoTimer);
+
+	globalIDsToValidate.push(cardID);
+	$("#fc-edit-back-" + cardID).attr("name", "fc-edit-back-" + cardID);
+	$("#fc-edit-front-" + cardID).attr("name", "fc-edit-front-" + cardID);
+	$("#fc-db-id-" + cardID).attr("name", "fc-db-id-" + cardID);
+
+	document.getElementById("card-undo-wrapper-" + cardID).outerHTML = "";
+	const deletedCard = document.getElementById("flashcard-id-" + cardID);
+	deletedCard.style.display = "";
+	deletedCard.style.opacity = "100%";
+	hr = document.getElementById("hr-id-" + cardID);
+	hr.style.opacity = "100%";
+	hr.style.margin = "1rem 0 1rem 0"
+
+	saveCards();
+}
+
 
 
 
