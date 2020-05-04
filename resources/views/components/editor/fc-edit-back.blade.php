@@ -11,7 +11,7 @@ containing the text for the back of this flashcard.
 *********
 -->
 
-<div class="card card-set shadow m-2 border-left-info hover-feedback-light">
+<div class="card card-set shadow m-2 border-left-info hover-feedback-light no-active-shrink">
 		<div class="card-body">
 	
 		
@@ -21,7 +21,7 @@ containing the text for the back of this flashcard.
 			class="form-control  flashcard-input-back mt-2 transparent-input" 
 			id="fc-edit-back-${globalCardIDCounter}" 
 			name="fc-edit-back-${globalCardIDCounter}"
-			maxlength="512" placeholder="Edit back of card" rows="10"></textarea> 
+			maxlength="512" placeholder="Edit back of card" ></textarea> 
 			<small class="form-text text-gray-500" id="fc-edit-back-help-${globalCardIDCounter}">Max. 512 Characters.</small> <!-- <script> $("#cardSetDescription").autogrow(); </script> -->
 		</div>
 </div>

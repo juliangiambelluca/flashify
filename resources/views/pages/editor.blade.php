@@ -6,6 +6,7 @@ Flashcard Editor - Flashify
 
 @section("content")
 
+
 <div id="set-editor-page" style="display: block;">
     @include('pages.set-editor')
 </div>
@@ -15,11 +16,18 @@ Flashcard Editor - Flashify
 
 <script>
 
-
+    //Makes text areas auto resize with input.
+    $('textarea').each(function () {
+  this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+}).on('input', function () {
+  this.style.height = 'auto';
+  this.style.height = (this.scrollHeight) + 'px';
+});
 
 
 //Confirm before leaving page to prevent data loss
 window.onbeforeunload = function() {
+    saveCards();
     return true;
 };
 
@@ -37,7 +45,8 @@ function showCardsEditor () {
         addCard(false)
     };
 }
- 
+
+
 </script>
 
 

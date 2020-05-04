@@ -86,12 +86,14 @@ class SetController extends Controller
             $oldSet->ispublic = $isPublicChecked;
             $oldSet->save();
             $currentID = $oldSet->id;
+            $newTitle = $oldSet->title;
         }else{
             $set->save();
             $currentID = $set->id;
+            $newTitle = $set->title;
         }
 
-        return ("success," . $currentID) ;
+        return ("success," . $currentID . "," . $newTitle) ;
     }
 
 }

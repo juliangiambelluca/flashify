@@ -44,6 +44,8 @@ a {
 
 
 /* HOVER FEEDBACK EFFECTS SECTION */
+
+
 .hover-feedback, .hover-feedback-light, .hover-feedback-strong {
     transform: scale(1);
     transition: 0.2s;
@@ -59,13 +61,18 @@ a {
 .hover-feedback-strong:hover{
     transform: scale(1.1);
 }
-
+.hover-feedback-strong:active{
+    transform: scale(1.2);
+}
 .hover-feedback-light:hover{
     transform: scale(1.02);
     transition: 0.2s;
 }
+.hover-feedback-light:active.no-active-shrink{
+    transform: scale(1.02)!important;
+    transition: ease-out;
+}
 .hover-feedback-light:active{
-    
     transform: scale(1.01);
     transition: ease-out;
 }
@@ -110,12 +117,14 @@ a {
 
 /* Card set style creator styles */
 
+textarea {
+    min-height: 7rem;
+}
+
 .transparent-input {
     background-color: rgba(0, 0, 0, 0);
     border:none;
     margin: none;
-    max-height: 300px;
-    min-height: 35px;
 }
 .card-set .form-check{
     padding-left: 0rem;
@@ -139,14 +148,14 @@ a {
     border: Solid 1px Red;
     background-color: rgb(255, 240, 240);
 }
-.toast-alerts{
-position: fixed;
-z-index: 999;
-bottom: 30px;
+
+.flashcard-input-front, .flashcard-input-back{
+    min-height: 10rem;
 }
 
 .flashcard-input-front{
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+    font-weight: 600;
 }
 .flashcard-input-back{
     font-size: 1.3rem;

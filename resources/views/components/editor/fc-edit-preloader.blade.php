@@ -24,7 +24,7 @@ if(isset($flashcards)){
 $cardToInsert = <<<EOD
 <div class="row" id="flashcard-id-$prepCardIDCounter">
 	<div class="col-md-6">
-		<div class="card card-set shadow m-2 border-left-success hover-feedback-light">
+		<div class="card card-set shadow m-2 border-left-success hover-feedback-light no-active-shrink">
 			<div class="card-body">
 				<div class="text-right" style="margin: -12px -10px">
 					<a href="#/" 
@@ -37,8 +37,8 @@ $cardToInsert = <<<EOD
 					</a>
 				</div>
 				<textarea 
-				maxlength="512" placeholder="Edit front of card" rows="7"
-				class="form-control transparent-input" 
+				maxlength="512" placeholder="Edit front of card" 
+				class="form-control flashcard-input-front transparent-input" 
 				aria-describedby="fc-edit-front-help-$prepCardIDCounter" 
 				id="fc-edit-front-$prepCardIDCounter" 
 				name="fc-edit-front-$prepCardIDCounter">$currentCardFront</textarea> 
@@ -49,11 +49,11 @@ $cardToInsert = <<<EOD
 		</div>
 	</div>
 	<div class="col-md-6">
-		<div class="card card-set shadow m-2 border-left-info hover-feedback-light">
+		<div class="card card-set shadow m-2 border-left-info hover-feedback-light no-active-shrink">
 			<div class="card-body">
 				<textarea 
-				maxlength="512" placeholder="Edit back of card" rows="7"
-				class="form-control transparent-input" 
+				maxlength="512" placeholder="Edit back of card"
+				class="form-control flashcard-input-back transparent-input" 
 				aria-describedby="fc-edit-back-help-$prepCardIDCounter" 
 				id="fc-edit-back-$prepCardIDCounter" 
 				name="fc-edit-back-$prepCardIDCounter">$currentCardBack</textarea> 

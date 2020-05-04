@@ -1,8 +1,9 @@
 <div class="row d-sm-flex align-items-center justify-content-between mb-4">
 	<div class="col-lg-6">
-		<h1 class="h1 text-gray-800">
-		the title innit
+		<h1 class="h1 text-gray-800" id="set-title-cards">
+		{{ $set->title ?? 'Edit flashcards' }}
 		</h1>
+		<strong id="autosave-time">Last edited: {{ $set->updated_at->timezone(date_default_timezone_get())->format('d/m/y H:i') }}</strong>
 	</div>
 	<div class="col-10 col-sm-6 col-lg-2">
 		<a href="#" onclick="showSetEditor()">
@@ -105,11 +106,14 @@ let globalCardsOnScreen = globalCardIDCounter;
 function addCard(autoSave = true){
 
 
+
+
 	if(autoSave === true){saveCards();};
 
-	
 	globalIDsToValidate.push(globalCardIDCounter);
 	globalCardsOnScreen++;
+
+
 
 
 	const newCard = `
@@ -130,16 +134,8 @@ function addCard(autoSave = true){
 	z.id = "flashcard-id-" + globalCardIDCounter;
 	document.getElementById('newCardsArea').appendChild(z);
 
-	newCardHeight = $(z).height();
-	z.style.height = "0px";
-	z.style.transition = "0.1s";
-	setTimeout(function(){
-		z.style.height = newCardHeight+"px";
-		setTimeout(function(){
-			z.style.overflow ="";
-	}, 100);
-	}, 100);
 
+	transitions.heightGrow(z, 150);
 
 	let hr = document.createElement('hr');
 	hr.id = "hr-id-" + globalCardIDCounter;
@@ -150,6 +146,16 @@ function addCard(autoSave = true){
 	$('html, body').animate({
 	scrollTop: $("#" + z.id).offset().top
 	},800);
+ 
+     //Refresh text areas auto resize with input.
+	$('textarea').each(function () {
+  	this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+	}).on('input', function () {
+  	this.style.height = 'auto';
+	this.style.height = (this.scrollHeight) + 'px';
+});
+
+
 }
 
 function saveCards(){
@@ -160,8 +166,10 @@ function saveCards(){
         cardInputs[field.name] = field.value;
     });
 
+	//Safely duplicate globalIDsToValidate
+	let idsToValidate = JSON.parse(JSON.stringify(globalIDsToValidate));
+	
 	//Don't send empty completely empty cards to server.
-	idsToValidate = globalIDsToValidate;
 	for(let i = 0; i <= globalCardIDCounter; i++){
 		if((cardInputs["fc-edit-front-" + i] == "") && (cardInputs["fc-edit-back-" +i] == "")){
 			delete cardInputs["fc-edit-front-" + i];
@@ -187,12 +195,12 @@ function saveCards(){
 				data: cardInputs,
                 success: function (response) {
                     resolve(response);
-					$( "#debug" ).html("Success! Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
+					// $( "#debug" ).html("Success! Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
 
                 },
                 error: function (response) {
                     reject(response);
-					$( "#debug" ).html("Error. Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
+					// $( "#debug" ).html("Error. Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
                 },
             });
          });
@@ -201,6 +209,8 @@ function saveCards(){
     sendPackage().then(response => {
 		let responseObj = JSON.parse(response);
         if(responseObj.result==="success" || "no-cards-sent"){
+			$("#autosave-time").html("Autosaved at: " + new Date().toLocaleTimeString());
+
 			//Clear error outline as inputs are now valid.
 			$( ".error-outline" ).removeClass("error-outline");
 
@@ -290,11 +300,11 @@ function deleteCard(cardID){
         			"deleteID": dbDeleteID
      				},
                 success: function (response) {
-					$( "#debug" ).html("Success! Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
+					// $( "#debug" ).html("Success! Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
                     resolve(response);
                 },
                 error: function (response) {
-					$( "#debug" ).html("Error. Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
+					// $( "#debug" ).html("Error. Response:<br>" + response + "<br><br>******<br><br>" + response.responseText);
                     reject(response);
                 },
             });
@@ -304,14 +314,9 @@ function deleteCard(cardID){
     sendPackage().then(response => {
         if(response==="deleted" || response==="not-saved"){
 
-
-
 			$("#fc-edit-back-" + cardID).removeAttr("name");
 			$("#fc-edit-front-" + cardID).removeAttr("name");
 			$("#fc-db-id-" + cardID).removeAttr("name");
-
-
-
 
 			const deletedCard = document.getElementById("flashcard-id-" + cardID);
 			const hr = document.getElementById("hr-id-" + cardID);
@@ -345,19 +350,20 @@ function deleteCard(cardID){
 			`;
 			undoButton.innerHTML = undoButtonHTML;
 		
+			//delete transition
 			deletedCard.style.opacity = "100%"; 
-			deletedCard.style.transition = "0.10s"; 
-			deletedCard.style.opacity = "0%"; 
-
+			deletedCard.style.transition = "0.2s"; 
+			setTimeout(function(){deletedCard.style.opacity = "0%";}, 100);
 			setTimeout(function(){
 				deletedCard.parentNode.insertBefore( undoButton, deletedCard.nextSibling );
 				deletedCard.style.display = "none";
 				setTimeout(function(){
+					
 					undoButton.style.opacity = "100%"; 
 					undoButton.style.height = "100px";
 
 				}, 100);
-			}, 100);
+			}, 200);
 			
 			globalUndoTimer = setTimeout(function(){
 				undoButton.style.transition = "0.5s";
@@ -376,8 +382,11 @@ function deleteCard(cardID){
 					}
 				},500)
 			},3500)
-
-        } 
+        }  else {
+            //Something else went wrong
+            $("#cards-input-error-alert").fadeIn(450);
+            $("#cards-input-errors" ).html(`Something went wrong. Please try again. [Details: Exception Caught. HTTP status: ${response.status}]`);
+        }
     })
     .catch(response => {
 
@@ -397,10 +406,28 @@ function undoDelete(cardID){
 	$("#fc-edit-front-" + cardID).attr("name", "fc-edit-front-" + cardID);
 	$("#fc-db-id-" + cardID).attr("name", "fc-db-id-" + cardID);
 
-	document.getElementById("card-undo-wrapper-" + cardID).outerHTML = "";
 	const deletedCard = document.getElementById("flashcard-id-" + cardID);
+	const undoWrapper = document.getElementById("card-undo-wrapper-" + cardID);
+
+	//Display the card to get its height and hide it immediately.
 	deletedCard.style.display = "";
-	deletedCard.style.opacity = "100%";
+	deletedCardHeight = $(deletedCard).height();
+	deletedCard.style.display = "none";
+
+	//reverse of delete transition
+	undoWrapper.style.height = deletedCardHeight + "px";
+	$(undoWrapper).fadeOut(250);
+	setTimeout(function(){
+		deletedCard.style.display = "";
+		deletedCard.style.opacity = "0%";
+		deletedCard.style.transition = "0.25s"
+		setTimeout(function(){
+		deletedCard.style.opacity = "100%";
+		}, 50);
+	}, 250);
+
+	
+
 	hr = document.getElementById("hr-id-" + cardID);
 	hr.style.opacity = "100%";
 	hr.style.margin = "1rem 0 1rem 0"
@@ -408,7 +435,39 @@ function undoDelete(cardID){
 	saveCards();
 }
 
+const transitions = {
+  heightGrow : (itemToGrow, delay=500, fromZero = true, finalHeight=null) => {
+    itemHeight = $(itemToGrow).height();
+	if(finalHeight===null){finalHeight = itemHeight;};
+	if(fromZero){
+		itemToGrow.style.height = "0px";
+	} else {
+		itemToGrow.style.height = itemHeight + "px";
+	}
+	itemToGrow.style.transition = delay+"ms";
+	itemToGrow.style.overflow = "hidden";
+	setTimeout(function(){
+		itemToGrow.style.height = finalHeight+"px";
+		setTimeout(function(){
+			itemToGrow.style.overflow ="";
+			itemToGrow.style.height = "";
+		}, (delay/2));
+	}, (delay/2));
+  },
 
-
+  heightShrink : (itemToShrink, delay=500, finalHeight=0) => {
+	itemHeight = $(itemToShrink).height();
+	itemToShrink.style.height = itemHeight + "px";
+	itemToShrink.style.transition = delay+"ms";
+	itemToShrink.style.overflow = "hidden";
+	setTimeout(function(){
+		itemToShrink.style.height = finalHeight + "px";
+		setTimeout(function(){
+			itemToShrink.style.overflow ="";
+			itemToShrink.style.display = "none";
+		}, (delay/2));
+	}, (delay/2));
+  }
+};
 
 </script>

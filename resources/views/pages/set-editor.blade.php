@@ -1,6 +1,13 @@
 <div class="row d-sm-flex align-items-center justify-content-between mb-4">
 	<div class="col-12">
-	<h1 class="h1 text-gray-800">Create a new set.</h1>
+	<h1 class="h1 text-gray-800" id="set-title-set">
+        @if(isset($set->title))
+            Edit:
+            {{ $set->title }}
+        @else
+            Create a new set
+        @endif
+    </h1>
 	</div></div>
 
 
@@ -107,11 +114,13 @@ function createSet(){
         let responseArray = response.split(",");
 
         if(responseArray[0]==="success"){
-
+            
             //The inputs were correct & the data saved to the database  
             //Set current card's ID to enable updating db instead of insert
             document.getElementById("fc-set-id").value = responseArray[1];
-
+            $( "#set-title-set" ).html("Edit: " + responseArray[2]);
+            $( "#set-title-cards" ).html(responseArray[2]);
+            
 			showCardsEditor();
 
         } else {
@@ -139,4 +148,6 @@ function createSet(){
         }
     });
 }
+
+
 </script>

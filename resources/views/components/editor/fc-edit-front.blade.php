@@ -9,7 +9,7 @@ fc-edit-front- 'This card's ID'  will be posted to the server on form submit
 containing the text for the front of this flashcard.
 *********
 -->
-<div class="card card-set shadow m-2 border-left-success hover-feedback-light">
+<div class="card card-set shadow m-2 border-left-success hover-feedback-light no-active-shrink">
 		<div class="card-body">
 			<div class="text-right " style="margin: -12px -10px">
 				<a href="#/" 
@@ -25,7 +25,7 @@ containing the text for the front of this flashcard.
 				aria-describedby="fc-edit-front-help-${globalCardIDCounter}" 
 				class="form-control mt-2 flashcard-input-front transparent-input" 
 				id="fc-edit-front-${globalCardIDCounter}" name="fc-edit-front-${globalCardIDCounter}" 
-				maxlength="512" rows="10"
+				maxlength="512"
 				placeholder="Edit front of card" ></textarea> 
 				<small class="form-text text-gray-500" id="fc-edit-front-help-${globalCardIDCounter}">Max. 512 Characters.</small>
 		</div>
