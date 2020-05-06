@@ -5,6 +5,29 @@ Flashcard Editor - Flashify
 @endsection
 
 @section("content")
+<style id="set-color-styles">
+<?php
+$setColor = $set->color ?? "#4e73df";
+
+$stylesToInsert = <<<EOD
+    .set-left-border-color{
+        border-left: 0.5rem solid $setColor !important;
+        transition: 0.5s
+    }
+    .set-text-color, .set-text-color i{
+        color: $setColor!important;
+        transition: 0.5s
+    }
+    .set-color.flashcard-edit-front, .set-color.btn, .set-color.left-sidenav{
+        background-color: $setColor !important;
+        transition: 0.5s
+    }
+EOD;
+
+echo $stylesToInsert;
+?>
+
+</style>
 
 
 <div id="set-editor-page" style="display: block;">

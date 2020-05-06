@@ -24,11 +24,16 @@
   <script src="{{ URL::to('vendor/packery/packery.js') }}"></script>
 
 </head>
-
-<body id="page-top">
+<script>
+  const moveContentForSidebar = () => {clearTimeout(contentMoveTimer); var contentMoveTimer = setTimeout(() => { $("#content").css("margin-left", $('.sidebar').width()) }, 10 ); }
+  moveContentForSidebar();
+  </script>
+<body id="page-top" onresize="moveContentForSidebar()">
 
   <!-- Page Wrapper -->
   <div id="wrapper">
+      
+
 
     @include('components.sidebar')
 
@@ -36,7 +41,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
 
       <!-- Main Content -->
-      <div id="content">
+      <div id="content" >
 
         
 

@@ -1719,7 +1719,7 @@
     width: 100%;
     height: calc(1.5em + 0.75rem + 2px);
     padding: 0.375rem 0.75rem;
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 400;
     line-height: 1.5;
     color: #6e707e;
@@ -4328,7 +4328,6 @@
     word-wrap: break-word;
     background-color: #fff;
     background-clip: border-box;
-    border: 1px solid #e3e6f0;
     border-radius: 0.35rem;
   }
   
@@ -9442,9 +9441,9 @@
   .text-black-50 {
     color: rgba(0, 0, 0, 0.5) !important;
   }
-  
+
   .text-white-50 {
-    color: rgba(255, 255, 255, 0.5) !important;
+    color: rgba(255, 255, 255, 0.6) !important;
   }
   
   .text-hide {

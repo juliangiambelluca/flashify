@@ -1,9 +1,11 @@
 <div class="row d-sm-flex align-items-center justify-content-between mb-4">
 	<div class="col-lg-6">
-		<h1 class="h1 text-gray-800" id="set-title-cards">
+		<h1 class="h1 text-gray-800" style="word-break: break-all" id="set-title-cards">
 		{{ $set->title ?? 'Edit flashcards' }}
 		</h1>
-		<strong id="autosave-time">Last edited: {{ $set->updated_at->timezone(date_default_timezone_get())->format('d/m/y H:i') }}</strong>
+		<strong id="autosave-time">
+
+		</strong>
 	</div>
 	<div class="col-10 col-sm-6 col-lg-2">
 		<a href="#" onclick="showSetEditor()">
@@ -23,14 +25,14 @@
 	</div>
 	<div class="col-lg-4">
 		<a href="#" onclick="saveCards()">
-			<div class="card border-left-primary hover-feedback shadow py-2">
+			<div class="card set-text-color set-left-border-color hover-feedback shadow py-2">
 				<div class="card-body" style="padding: 0.5rem">
 					<div class="row no-gutters align-items-center">
-						<div class="col-2" style="text-align: center">
+						<div class="col-2 " style="text-align: center">
 							<i class="fas fa-save text-primary" style="transform: scale(1.3)"></i>
 						</div>
 						<div class="col-10">
-							<div class="h5 mb-0 font-weight-bold text-primary">
+							<div class="h5 mb-0 font-weight-bold">
 								Save & View Card Set
 							</div>
 						</div>
@@ -80,7 +82,7 @@
 			
 	<div class="row">
 		<div class="col-12 text-center">
-			<button class="btn btn-circle btn-lg btn-success hover-feedback m-5 tool-tip" onclick="addCard()" type="button">
+			<button class="btn btn-circle btn-lg set-color hover-feedback m-5 tool-tip" onclick="addCard()" type="button">
 				<span class="tool-tip-text">Add card</span><i class="fas fa-plus fa-sm"></i>
 			</button>
 			<br><br>
@@ -101,6 +103,12 @@
 	
 
 let globalCardsOnScreen = globalCardIDCounter;
+
+
+const showTimeSaved = () => {
+	const date = new Date("date.toString(){{ $set->updated_at }} UTC");
+	$("#autosave-time").html("Last edited: " + date.toLocaleString());
+}; showTimeSaved();
 
 
 function addCard(autoSave = true){
@@ -137,9 +145,9 @@ function addCard(autoSave = true){
 
 	transitions.heightGrow(z, 150);
 
-	let hr = document.createElement('hr');
-	hr.id = "hr-id-" + globalCardIDCounter;
-	document.getElementById('newCardsArea').appendChild(hr);
+	// let hr = document.createElement('hr');
+	// hr.id = "hr-id-" + globalCardIDCounter;
+	// document.getElementById('newCardsArea').appendChild(hr);
 
 	globalCardIDCounter++;
 
@@ -235,7 +243,7 @@ function saveCards(){
         if(response.status===422) {
             let errorMsgsObj = JSON.parse(response.responseText);
             $("#cards-input-error-alert").fadeIn(450);
-            $( "#cards-input-errors" ).html("Please make sure that no cards are empty. Each side can hold up to 512 characters.");
+            $( "#cards-input-errors" ).html("Each side can hold up to 512 characters, including line breaks (enter key).");
 
             //Extract each error message and append to alert
             for (const property in errorMsgsObj) {
@@ -265,7 +273,8 @@ function highlightDeletions(mouseHover, pairToHighlight){
 		const style = document.createElement('style');
 		style.innerHTML =
 			`#${pairToHighlight} .card-body {	
-				background-color: rgb(255, 240, 240);	
+				background-color: #ff000075;
+				border-color: transparent!important;	
 				}`;
 		style.id = (pairToHighlight + "-highlight-style")
 		// Get the first script tag
@@ -369,14 +378,14 @@ function deleteCard(cardID){
 				undoButton.style.transition = "0.5s";
 				undoButton.style.height = "0px";
 				undoButton.style.opacity = "0%"; 
-				hr.style.transition = "0.5s";
-				hr.style.margin = "0px"
-				hr.style.opacity = "0%"; 
+				// hr.style.transition = "0.5s";
+				// hr.style.margin = "0px"
+				// hr.style.opacity = "0%"; 
 				setTimeout(function(){	
 					globalCardsOnScreen--;
 					undoButton.outerHTML = "";
 					deletedCard.outerHTML = "";
-					hr.outerHTML = "" ;
+					// hr.outerHTML = "" ;
 					if (globalCardsOnScreen === 0){
 						addCard();
 					}

@@ -9,17 +9,8 @@ fc-edit-front- 'This card's ID'  will be posted to the server on form submit
 containing the text for the front of this flashcard.
 *********
 -->
-<div class="card card-set shadow m-2 border-left-success hover-feedback-light no-active-shrink">
-		<div class="card-body">
-			<div class="text-right " style="margin: -12px -10px">
-				<a href="#/" 
-				onmouseenter="highlightDeletions(true, 'flashcard-id-${globalCardIDCounter}');" 
-				onmouseleave="highlightDeletions(false, 'flashcard-id-${globalCardIDCounter}');" 
-				onclick="deleteCard(${globalCardIDCounter})" class="tool-tip">
-					<span class="tool-tip-text">Delete card</span><i class="fas fa-trash-alt  hover-feedback-strong fa-fw text-danger"></i>
-				</a>
-			</div>
-			
+<div class="card card-set flashcard-edit-front set-color rounded-borders-med hover-feedback-light no-active-shrink">
+		<div class="card-body">	
 			<textarea 
 				onfocus="clearInputError(this);"
 				aria-describedby="fc-edit-front-help-${globalCardIDCounter}" 
@@ -27,7 +18,7 @@ containing the text for the front of this flashcard.
 				id="fc-edit-front-${globalCardIDCounter}" name="fc-edit-front-${globalCardIDCounter}" 
 				maxlength="512"
 				placeholder="Edit front of card" ></textarea> 
-				<small class="form-text text-gray-500" id="fc-edit-front-help-${globalCardIDCounter}">Max. 512 Characters.</small>
+				<small class="form-text text-white-50" id="fc-edit-front-help-${globalCardIDCounter}">Max. 512 Characters.</small>
 		</div>
 </div>
 <!-- 

@@ -16,10 +16,9 @@ class CreateSetsTable extends Migration
         Schema::create('sets', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('title', 64);
-            $table->string('description', 256);
-            $table->boolean('ispublic');
-            $table->boolean('onfeed');
+            $table->string('title', 64)->nullable();
+            $table->string('description', 256)->nullable();
+            $table->string('color')->nullable();
 
 
 

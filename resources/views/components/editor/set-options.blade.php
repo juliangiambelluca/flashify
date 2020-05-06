@@ -22,13 +22,15 @@ fc-set-ispublic = boolean specifiying if this set should be publically available
 *********
 -->
 
-<div class="card card-set shadow mb-4 border-left-info hover-feedback-light">
-	<div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-		<h6 class="m-0 font-weight-bold text-info">
+<div class="card card-set shadow mb-4 set-left-border-color hover-feedback-light">
+  <div class="left-border-color-darker">
+
+
+	
+  <div class="card-body" style="padding: 1rem">
+  <h5 class="m-2 mb-4 font-weight-bold set-text-color">
 			Additional Options for this set
-		</h6>
-	</div>
-	<div class="card-body" style="padding: 1rem">
+		</h5>
     <div class="row m-2">
       <div class="col-12">
       	<label class="form-check-label">Set Color</label><br>
@@ -53,24 +55,7 @@ fc-set-ispublic = boolean specifiying if this set should be publically available
       </div>
     </div>
     <div class="row m-2" style="padding-top: 10px">
-			<div class="col-xl-5">
-        <div class="form-group">
-          <label for="fc-set-category">Category</label><br>
-          
-          <!-- Category selector -->
-            <select class="form-control-sm" text="Select a category" id="fc-set-category" name="fc-set-category">
-              <option>Select a category</option>
-              <option>Science</option>
-              <option>Maths</option>
-              <option>Business</option>
-              <option>Computer Science</option>
-              <option>Art</option>
-            </select>
-
-        </div>
-			</div>
-
-			<div class="col-xl-7">					
+      <div class="col-12">					
         <div class="form-group"style="margin-bottom: 0px">
           <label for="fc-set-tags">Tags</label><br>
 
@@ -83,33 +68,56 @@ fc-set-ispublic = boolean specifiying if this set should be publically available
         </div>
       </div>
     </div>
-    <div class="row" >
-			<div class="col-sm-6 ">
-				<div class="form-check p-3">
-					<label class="form-check-label" for="fc-set-onfeed">
-            <i class="fas fa-users fa-sm"></i> Publish to my account
-          </label> 
+    <div class="row m-2" >
+			<div class="col-12 ">
+        <div class="form-group" style ="height:8rem;">
 
-          <!--Checkbox to select if the user would like this set to be publically available via search-->
-          <input class="form-check-input" id="fc-set-onfeed" name="fc-set-onfeed" aria-describedby="fc-set-onfeed-help" checked type="checkbox">
+          <label for="fc-set-privacy">Privacy</label><br>
+          <!-- Category selector -->
+          <div class="row" width="100%">
+            <div class="col-2 text-center">
+             <i class="col-3 fas  fa-fw fa-lock"></i>
+            </div>
+            <div class="col-10" >
+              <select 
+              onclick="switchHelpData(this)"
+              style="max-width:100%!important;"
+              class=" col-9 form-control-sm"               
+              text="Select a category" 
+              id="fc-set-category" 
+              name="fc-set-category">
+              <option>Do not publish (Private)</option>
+              <option selected="selected">Publish to followers</option>
+              <option>Publish to community (Public)</option>
+            </select>
+            </div>
 
-          <small class="form-text text-gray-500" id="fc-set-onfeed-help">Let your followers see this on their feed & your profile.</small>
-				</div>
+          </div>
+          
+          
+          <script>
+            function switchHelpData(selector){
+              if(selector.value==='Publish to followers'){
+              $('#privacy_help').html('Let your followers see this on their feed & your profile.');
+              } else if (selector.value==='Publish to community (Public)'){
+              $('#privacy_help').html('Contribute to our community so that anybody can find this.');
+              } else {
+              $('#privacy_help').html("");
+              }
+            }  
+          </script> 
+
+          <p id="privacy_help" class="m-2 mt-3">
+            Let your followers see this on their feed & your profile.
+          </p>
+
+        </div>
+
 			</div>
-      <div class="col-sm-6 ">
-				<div class="form-check p-3">
-					<label class="form-check-label" for="fc-set-ispublic">
-            <i class="fas fa-globe fa-sm"></i> Add to community
-          </label> 
 
-          <!--Checkbox to select if the user would like this set to be publically available via search-->
-          <input class="form-check-input" id="fc-set-ispublic" name="fc-set-ispublic" aria-describedby="fc-set-ispublic-help"  type="checkbox">
-
-          <small class="form-text text-gray-500" id="fc-set-ispublic-help">Contribute to our community so that anybody can find this.</small>
-				</div>
-			</div>
     </div>
    
+	</div>
 	</div>
 </div>
 <script>
@@ -134,6 +142,28 @@ have selected, and write the last selected colour into a hidden textfield in RGB
     selected.classList.add("color-button-checked")
 
     //Get the colour of the selected colour button and write that value to the hidden fc-set-color text field.
-    document.getElementById("fc-set-color").value = selected.style.backgroundColor;
+    newSetColor = selected.style.backgroundColor;
+    document.getElementById("fc-set-color").value = newSetColor;
+
+    newColorStyles = `
+      .set-left-border-color{
+          border-left: 0.5rem solid ${newSetColor} !important;
+          transition: 0.5s
+      }
+      .set-text-color, .set-text-color i{
+          color: ${newSetColor}!important;
+          transition: 0.5s
+      }
+      .set-color.flashcard-edit-front, .set-color.btn, .set-color.sidebar-gradient{
+          background-color: ${newSetColor} !important;
+          transition: 0.5s
+      }
+    `;
+    $("#set-color-styles").html(newColorStyles)
+
+
+
+
+
   }
 </script>

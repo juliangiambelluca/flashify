@@ -1,6 +1,6 @@
 <div class="row d-sm-flex align-items-center justify-content-between mb-4">
 	<div class="col-12">
-	<h1 class="h1 text-gray-800" id="set-title-set">
+	<h1 class="h1 text-gray-800" style="word-break: break-all" id="set-title-set">
         @if(isset($set->title))
             Edit:
             {{ $set->title }}
@@ -28,10 +28,10 @@
 </div>
 <form id="create-set-form" action="{{ route('create.set') }}" method="POST">
 <div class="row">
-		<div class="col-md-6">
+		<div class="col-md-7">
 			@include('components.editor.set-edit')
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-5">
 			@include('components.editor.set-options') 
 			<!-- 
 			Form input names created by the two includes above.
@@ -48,14 +48,14 @@
 			<div class="row">
 			<div class="col-lg-9 col-xl-6">
 			<a onclick="createSet()" href="#">
-				<div class="card border-left-success shadow hover-feedback py-2">
+				<div class="card set-left-border-color shadow hover-feedback py-2">
 					<div class="card-body" style="padding: 0.5rem">
-						<div class="row no-gutters align-items-center">
+						<div class="row set-text-color no-gutters align-items-center">
 							<div class="col-2 arrow-effect-right" style="text-align: center">
-								<i class="fas fa-arrow-right text-success" style="transform: scale(1.3)"></i>
+								<i class="fas fa-arrow-right " style="transform: scale(1.3)"></i>
 							</div>
 							<div class="col-10">
-								<div class="h5 mb-0 font-weight-bold text-success">
+								<div class="h5 mb-0 font-weight-bold ">
 									Save & Continue
 								</div>
 							</div>
@@ -90,7 +90,7 @@ function createSet(){
     const sendPackage= () => {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: '{{ route('create.set') }}',
+                url: "{{ route('create.set') }}",
                 type: 'POST',
                 dataType: "text",
                 data: setInputs,
@@ -110,16 +110,16 @@ function createSet(){
         //Successful response looks like "success,123" where 123 is the current ID
         //It was much simpler to do this way than to receive an array from server.
 
-        //Split response into success & ID
-        let responseArray = response.split(",");
+        //Get resposnse
+        let setResponseObj = JSON.parse(response);
 
-        if(responseArray[0]==="success"){
+        if(setResponseObj.result==="success"){
             
             //The inputs were correct & the data saved to the database  
             //Set current card's ID to enable updating db instead of insert
-            document.getElementById("fc-set-id").value = responseArray[1];
-            $( "#set-title-set" ).html("Edit: " + responseArray[2]);
-            $( "#set-title-cards" ).html(responseArray[2]);
+            document.getElementById("fc-set-id").value = setResponseObj.setID;
+            $( "#set-title-set" ).html("Edit: " + setResponseObj.setTitle);
+            $( "#set-title-cards" ).html(setResponseObj.setTitle);
             
 			showCardsEditor();
 

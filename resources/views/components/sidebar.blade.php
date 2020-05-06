@@ -1,6 +1,22 @@
+<style>
+/* The sidebar menu */
+.left-sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: ; /* Black */
+  padding-top: 20px;
+}
 
+
+</style>
+
+<div class="sidebar-gradient set-color left-sidenav">
+<div class=" text-center">  
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar toggled sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav sidebar toggled  sidebar-dark accordion " id="accordionSidebar" >
 
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('pages.dashboard') }}">
@@ -61,9 +77,16 @@
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        <button class="rounded-circle border-0" onclick="moveContentForSidebar();" id="sidebarToggle"></button>
       </div>
+    
+  
+
 
     </ul>
-    <!-- End of Sidebar -->
+
+    </div>
+    </div>
+
+
 

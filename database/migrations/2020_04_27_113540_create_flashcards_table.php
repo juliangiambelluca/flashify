@@ -17,8 +17,8 @@ class CreateFlashcardsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->integer('set_id');
-            $table->string('front', 512);
-            $table->string('back', 512);
+            $table->string('front', 512)->nullable();
+            $table->string('back', 512)->nullable();
         });
     }
 
