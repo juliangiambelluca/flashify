@@ -25,7 +25,13 @@
 
 </head>
 <script>
-  const moveContentForSidebar = () => {clearTimeout(contentMoveTimer); var contentMoveTimer = setTimeout(() => { $("#content").css("margin-left", $('.sidebar').width()) }, 10 ); }
+  const moveContentForSidebar = () => {
+    clearTimeout(contentMoveTimer); 
+    var contentMoveTimer = setTimeout(() => { 
+      $("#content-wrapper").css("margin-left", $('.sidebar').width());
+      $("#sticky-footer").css("padding-left", $('.sidebar').width());
+    }, 10 ); 
+      }
   moveContentForSidebar();
   </script>
 <body id="page-top" onresize="moveContentForSidebar()">
@@ -57,8 +63,15 @@
       </div>
       <!-- End of Main Content -->
 
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
+
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+            <!-- Footer -->
+            <footer id="sticky-footer" class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <span>Copyright &copy; Julian Giambelluca 2020</span>
@@ -66,13 +79,6 @@
         </div>
       </footer>
       <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
-
-  </div>
-  <!-- End of Page Wrapper -->
-
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>

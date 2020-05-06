@@ -86,10 +86,10 @@ class SetController extends Controller
         };
 
         $response = array(
-            "result" => $result,
+            "result" => "success",
             "setID" => $currentID,
-            "setTitle" => $newTitle
-        );
+            "setTitle" => $newTitle,
+            );
      
         return($response);
 

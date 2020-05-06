@@ -22,7 +22,7 @@ if(isset($flashcards)){
             $currentCardBack = $flashcard->back;
 
 $cardToInsert = <<<EOD
-<div class="row" id="flashcard-id-$prepCardIDCounter">
+<div class="row" style="margin-bottom:33px;" id="flashcard-id-$prepCardIDCounter">
 	<div class="col-md-6">
 		<div class="card flashcard-edit-front card-set set-color hover-feedback-light rounded-borders-med no-active-shrink">
 			<div class="card-body">
@@ -42,6 +42,10 @@ $cardToInsert = <<<EOD
 	<div class="col-md-6">
 		<div class="card card-set flashcard-edit-back set-left-border-color set-color hover-feedback-light no-active-shrink">
 			<div class="card-body">
+
+			<!-- Make up for border width -->
+			<div style="margin-left:-1rem">
+
 				<div class="text-right" style="margin: -12px -10px">
 				<a href="#/" 
 				onmouseenter="highlightDeletions(true, 'flashcard-id-$prepCardIDCounter');" 
@@ -61,6 +65,7 @@ $cardToInsert = <<<EOD
 				<small class="form-text text-black-50" id="fc-edit-back-help-$prepCardIDCounter">
 					Max. 512 Characters.
 				</small> 
+			</div>
 			</div>
 		</div>
 	</div>

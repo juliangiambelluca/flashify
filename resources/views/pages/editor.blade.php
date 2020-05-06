@@ -5,6 +5,19 @@ Flashcard Editor - Flashify
 @endsection
 
 @section("content")
+<!-- Local Styles -->
+<style>
+body{
+    background-color: #f8f9fc;
+}
+footer.sticky-footer {
+    padding: 2rem 0;
+    flex-shrink: 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+</style>
 <style id="set-color-styles">
 <?php
 $setColor = $set->color ?? "#4e73df";

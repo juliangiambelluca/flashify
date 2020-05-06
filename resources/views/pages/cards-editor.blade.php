@@ -80,7 +80,7 @@
 		</div>
 	</div>        
 			
-	<div class="row">
+	<div class="row mb-5">
 		<div class="col-12 text-center">
 			<button class="btn btn-circle btn-lg set-color hover-feedback m-5 tool-tip" onclick="addCard()" type="button">
 				<span class="tool-tip-text">Add card</span><i class="fas fa-plus fa-sm"></i>
@@ -140,8 +140,12 @@ function addCard(autoSave = true){
 	z.classList = "row";
 	z.style.overflow ="hidden";
 	z.id = "flashcard-id-" + globalCardIDCounter;
+	z.style.marginBottom = "33px";
 	document.getElementById('newCardsArea').appendChild(z);
-
+	
+	$('html, body').animate({
+	scrollTop: $("#" + z.id).offset().top
+	},250);
 
 	transitions.heightGrow(z, 150);
 
@@ -151,9 +155,7 @@ function addCard(autoSave = true){
 
 	globalCardIDCounter++;
 
-	$('html, body').animate({
-	scrollTop: $("#" + z.id).offset().top
-	},800);
+
  
      //Refresh text areas auto resize with input.
 	$('textarea').each(function () {
@@ -161,9 +163,10 @@ function addCard(autoSave = true){
 	}).on('input', function () {
   	this.style.height = 'auto';
 	this.style.height = (this.scrollHeight) + 'px';
+
+
+
 });
-
-
 }
 
 function saveCards(){
@@ -434,12 +437,6 @@ function undoDelete(cardID){
 		deletedCard.style.opacity = "100%";
 		}, 50);
 	}, 250);
-
-	
-
-	hr = document.getElementById("hr-id-" + cardID);
-	hr.style.opacity = "100%";
-	hr.style.margin = "1rem 0 1rem 0"
 
 	saveCards();
 }
