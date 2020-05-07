@@ -43,8 +43,8 @@ Route::post('/delete-card', [
     'as' => 'delete.card'
 ]); 
 
-Route::get('/study', [
-    'uses' => 'FlashcardController@listFlashcards',
+Route::get('/study/{id?}', [
+    'uses' => 'FlashcardController@getCards',
     'as' => 'pages.viewer'
 ]); 
 

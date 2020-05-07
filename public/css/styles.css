@@ -4,6 +4,31 @@
 
 /* END TESTING AREA */
 
+body{
+    background-color: #f8f9fc;
+}
+footer.sticky-footer {
+    padding: 2rem 0;
+    flex-shrink: 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.set-left-border-color{
+    border-left: 0.5rem solid #4e73df;
+    transition: 0.5s
+}
+.set-text-color, .set-text-color i{
+    color: #4e73df;
+    transition: 0.5s
+}
+.set-color.flashcard-edit-front, .set-color.btn, .set-color.left-sidenav{
+    background-color: #4e73df;
+    transition: 0.5s
+}
+
+
 /* PERSONAL HELPER CLASSES */
 .transparent-input, .transparent-input:focus, .transparent-input:active {
     background-color: rgba(0, 0, 0, 0)!important;
@@ -25,6 +50,9 @@
 .packery-grid-item { width: 49%; }
 .packery-grid-item-3 { width: 32%; }
 }
+
+
+
 
 /* TOOLTIP */
 /* Tooltip container */
@@ -266,4 +294,13 @@ max-height: 450px!important;
 .fc-viewer-modal-buttons {
     text-align: center;
     align-items: center;
+}
+
+
+
+/* Set viewer Styles */
+
+.sets-pagination{
+    width: fit-content;
+    margin: auto;
 }

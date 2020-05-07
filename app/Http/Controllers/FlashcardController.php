@@ -9,6 +9,20 @@ use Illuminate\Http\Request;
 
 class FlashcardController extends Controller
 {   
+
+    public function getCards($setID = null){
+        if ($setID === null){return 404;};
+
+        $set = Set::find($setID);  
+
+        if(isset($set)){
+            $flashcards = $set->flashcards;
+        }
+
+        return view('pages.viewer' , ["set" => $set, "flashcards" => $flashcards]);
+
+    }
+
     
     public function deleteCard(Request $request){
 

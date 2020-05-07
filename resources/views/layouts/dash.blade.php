@@ -26,11 +26,24 @@
 </head>
 <script>
   const moveContentForSidebar = () => {
-    clearTimeout(contentMoveTimer); 
+    clearTimeout(contentMoveTimer); //Clear previous timeout during resize to avoid unnecessary calculation
+   
     var contentMoveTimer = setTimeout(() => { 
-      $("#content-wrapper").css("margin-left", $('.sidebar').width());
-      $("#sticky-footer").css("padding-left", $('.sidebar').width());
-    }, 10 ); 
+      sidebarWidth = $('#sidebar').width();
+    //   packeryHackMargin = ($('#sidebar').width()/2)*-1;
+    //   packeryHackCSS = `
+    //   .packery-item-margin-hack { 
+    //       margin-left: ${packeryHackMargin}px;
+    //       }
+    // `;
+      $("#content-wrapper").css("margin-left", sidebarWidth);
+      $("#sticky-footer").css("padding-left", sidebarWidth);
+      $('.packery-grid').packery({
+  itemSelector: '.packery-grid-item',
+  gutter: 10
+});
+      // $("#packery-item-margin-hack").html(packeryHackCSS);
+    }, 100 ); 
       }
   moveContentForSidebar();
   </script>

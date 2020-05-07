@@ -345,7 +345,7 @@ function deleteCard(cardID){
 			const undoButtonHTML = `
 				<div class="row" style="height: 100%;">
 					<div class="col-12">
-						<table style="height: 100%; width: 100%;">
+						<table style="height: 100%; margin-top: -20px;width: 100%;">
 							<tr>
 								<td style="width: 50%; text-align: right; padding-right:20px">
 								<div>
@@ -372,7 +372,7 @@ function deleteCard(cardID){
 				setTimeout(function(){
 					
 					undoButton.style.opacity = "100%"; 
-					undoButton.style.height = "100px";
+					undoButton.style.height = "166px";
 
 				}, 100);
 			}, 200);

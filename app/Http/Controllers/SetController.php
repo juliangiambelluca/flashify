@@ -10,8 +10,11 @@ use Illuminate\Http\Request;
 class SetController extends Controller
 {
     public function getMySets(){
-        $sets = Set::all();
-        return view('pages.my-sets', compact("sets"));
+        $sets = Set::paginate(4);
+
+
+
+        return view('pages.my-sets',  ["sets" => $sets]);
     }
 
     public function prepEditor($setID = -1){   
@@ -43,9 +46,6 @@ class SetController extends Controller
             }
         }
     }
-
-
-
 
     public function createSet(Request $request){
 

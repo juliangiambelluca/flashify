@@ -1,9 +1,8 @@
-<div class="row d-sm-flex align-items-center justify-content-between mb-4">
+<div class="row d-sm-flex align-items-center justify-content-between mb-0">
 	<div class="col-md-8">
 	<h1 class="h1 text-gray-800" style="word-break: break-all" id="set-title-set">
-        @if(isset($set->title))
-            Edit:
-            {{ $set->title }}
+        @if($set->title !== null)
+            Edit set
         @else
             Create a new set
         @endif
@@ -21,15 +20,11 @@
         </div>
     </div>
 </div>
-    
-<div class="row">
-	<!-- DEBUGGING RESPONSE -->
+  
+<div class="row mb-5">
+<!-- DEBUGGING RESPONSE -->
 	<!-- <div id="set-debug" style="overflow-wrap: anywhere; "></div> -->
-</div>
 
-
-<div class="row">
-	<br>
 </div>
 
 <form id="create-set-form" action="{{ route('create.set') }}" method="POST">
@@ -53,10 +48,10 @@
             {{ csrf_field() }}
             <input type="hidden" id="fc-set-id" name="fc-set-id" value="{{ $set->id ?? '' }}">
 
-            <div class="row">
-                <div class="col-lg-9 col-xl-6  ">
+            <div class="row mb-5">
+                <div class="col-lg-9 col-xl-6">
                     <a onclick="createSet()" href="#">
-                        <div class="card set-left-border-color shadow hover-feedback py-2">
+                        <div class="card mb-5 set-left-border-color shadow hover-feedback py-2">
                             <div class="card-body" style="padding: 0.5rem">
                                 <div class="row set-text-color no-gutters align-items-center">
                                     <div class="col-2 arrow-effect-right" style="text-align: center">
@@ -166,7 +161,7 @@ function createSet(){
             //The inputs were correct & the data saved to the database  
             //Set current card's ID to enable updating db instead of insert
             document.getElementById("fc-set-id").value = setResponseObj.setID;
-            $( "#set-title-set" ).html("Edit: " + setResponseObj.setTitle);
+            $( "#set-title-set" ).html("Edit set");
             $( "#set-title-cards" ).html(setResponseObj.setTitle);
             
 			showCardsEditor();

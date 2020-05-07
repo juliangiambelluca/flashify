@@ -2,11 +2,34 @@
 @section('page-title') 
 Study - Flashify 
 @endsection 
-@section('content') <!-- Page Heading -->
+@section('content') 
+<style id="set-color-styles">
+<?php
+$setColor = $set->color ?? "#4e73df";
+
+$stylesToInsert = <<<EOD
+    .set-left-border-color{
+        border-left: 0.5rem solid $setColor !important;
+        transition: 0.5s
+    }
+    .set-text-color, .set-text-color i{
+        color: $setColor!important;
+        transition: 0.5s
+    }
+    .set-color.flashcard-edit-front, .set-color.btn, .set-color.left-sidenav{
+        background-color: $setColor !important;
+        transition: 0.5s
+    }
+EOD;
+
+echo $stylesToInsert;
+?>
+
+</style>
 <div class="row d-sm-flex align-items-center justify-content-between mb-2">
 	<div class="col-lg-8">
 		<h1 class="h1 text-gray-800">
-            {{ $flashcards["title"] }}
+            {{ $set->title }}
 		</h1><br>
 	</div>
 	<div class="col-lg-4">
@@ -30,25 +53,29 @@ Study - Flashify
 
 <div class="row m-1">
     <div class="col-12">
-        <p>{{ $flashcards["description"] }}</p>
+        <p>{{ $set->description }}</p>
     </div>
 </div>
 
 <div class="row">
 	<div class="col-12">
 		<div class="packery-grid">
-      @for ($cardsIterator = 0; $cardsIterator < count($flashcards["flashcardFronts"]); $cardsIterator++) 
-        @php 
-          $flashcardFront = $flashcards["flashcardFronts"][$cardsIterator]; 
-          $flashcardBack = $flashcards["flashcardBacks"][$cardsIterator]; 
-          $flashcardID = $cardsIterator; 
+		@php 
+		$fcIterator = 0
+		@endphp
+		@foreach($flashcards as $flashcard)
+		@php
+          $flashcardFront = $flashcard->front; 
+          $flashcardBack = $flashcard->back; 
+		  $flashcardID = $fcIterator;
+		  $fcIterator++;
 		@endphp
 			<a href="#" class="text-gray-900">
 		  	<div class="packery-grid-item-3">
 				@include('components.viewer.flashcard-front')
 			</div>
 			</a>
-      @endfor
+     	@endforeach
 		</div>
 	</div>
 </div>
@@ -74,15 +101,15 @@ $('.packery-grid').packery({
 	//Not as elgant or efficient as imploding the PHP array, but it's more secure.
 	// Global flashcards array
 	const flashcards = {
-		fronts: [ 
-			@for ($i = 0; $i < count($flashcards["flashcardFronts"]); $i++)
-			{!! "'" !!}{{ $flashcards["flashcardFronts"][$i] }}{!! "', " !!}
-			@endfor
-			],
-		backs: [ 
-			@for ($i = 0; $i < count($flashcards["flashcardBacks"]); $i++)
-			{!! "'" !!}{{ $flashcards["flashcardBacks"][$i] }}{!! "', " !!}
-			@endfor
+		fronts: [
+			@foreach($flashcards as $flashcard)
+				'{{ $flashcard->front }}',
+			@endforeach
+		],
+		backs: [
+			@foreach($flashcards as $flashcard)
+			'{{ $flashcard->back }}',
+			@endforeach
 		]
 	};
 	

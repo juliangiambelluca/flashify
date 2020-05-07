@@ -1,22 +1,10 @@
-<!--
-*********
-DOCUMENTATION WRONG
-****
-This is the template for the front of card editor.
-Many of these will be generated inside a form in the "pages.cards-editor" view within "pages.editor"
 
-It must be passed a unique id corresponding to the back of the card.
-
-fc-edit-front- 'This card's ID'  will be posted to the server on form submit
-containing the text for the front of this flashcard.
-*********
--->
-
-<!-- Open Flashcard modal - startOnFront = False - (Open the back of the card) -->
 <a href="#" onclick="openFlashcardModal({{ $flashcardID }}, false)">
-<div class="card card-set shadow m-2 border-left-success hover-feedback-light">
-		<div class="card-body">
-            <h3>{{ $flashcardFront }}</h3>
-		</div>
-</div>
+	<div class="card card-set flashcard-edit-front set-color rounded-borders-med hover-feedback-light no-active-shrink">
+			<div class="card-body">	
+				<h3 style="color: white">
+				{{ $flashcardFront }}
+				</h3>
+			</div>
+	</div>
 </a>
